@@ -220,7 +220,7 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
         obstacle.physicsBody?.contactTestBitMask = 1
         //obstacle.physicsBody?.mass=200
         
-        let toilet = Toilet(texture: SKTexture(imageNamed: ""), size: CGSize(width: CGFloat(30), height: 50))
+        let toilet = Toilet(texture: SKTexture(imageNamed: ""), size: CGSize(width: CGFloat(50), height: 50))
         toilet.name = "toilet" + String(obstaclesCreated)
 
         toilet.position = CGPoint(x: CGFloat.random(in: obstacle.position.x-50...obstacle.position.x+50), y: obstacle.position.y+50)
@@ -287,7 +287,7 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
         obstacle.physicsBody?.contactTestBitMask = 1
         obstacle.physicsBody?.mass=200
 
-        let toilet = Toilet(texture: SKTexture(imageNamed: ""), size: CGSize(width: CGFloat(30), height: 50))
+        let toilet = Toilet(texture: SKTexture(imageNamed: ""), size: CGSize(width: CGFloat(50), height: 50))
         toilet.name = "toilet" + String(obstaclesCreated)
 
         toilet.position = CGPoint(x: CGFloat.random(in: obstacle.position.x-50...obstacle.position.x+50), y: obstacle.position.y+50)
