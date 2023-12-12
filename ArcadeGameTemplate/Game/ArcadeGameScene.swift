@@ -103,10 +103,9 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
-    
-    
-    
     override func didMove(to view: SKView) {
+        self.setUpGame()
+        
         self.view?.showsPhysics = true
 
         
@@ -139,7 +138,7 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
     
     
     func createPlayer() {
-        player = SKSpriteNode(texture: SKTexture(imageNamed: "Charakter"), size: CGSize(width: 50, height: 50))
+        player = SKSpriteNode(texture: SKTexture(imageNamed: "character"), size: CGSize(width: 50, height: 50))
         player.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5)
         player.name = "player"
         player.physicsBody = SKPhysicsBody(rectangleOf: player.size)
@@ -415,7 +414,7 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
                         }
                         else{
                             print("combo broken")
-                            self.gameLogic.combo(points: 0)
+                            self.gameLogic.resetCombo()
                         }
                         lastScored = Int(numberString)!
                         scorePoints()
@@ -423,7 +422,7 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
                         toilet.contactOccurred = true
                     }
                     else if lastjumpScored[previousJump] != Int(numberString)!-1 && lastjumpScored[previousJump] != Int(numberString)! {
-                        self.gameLogic.combo(points: 0)
+                        self.gameLogic.resetCombo()
                     }
                 }
             }
@@ -445,7 +444,7 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
                         }
                         else{
                             print("combo broken")
-                            self.gameLogic.combo(points: 0)
+                            self.gameLogic.resetCombo()
                         }
                         lastScored = Int(numberString)!
                         scorePoints()
@@ -453,7 +452,7 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
                         toilet.contactOccurred = true
                     }
                     else if lastjumpScored[previousJump] != Int(numberString)!-1 && lastjumpScored[previousJump] != Int(numberString)!{
-                        self.gameLogic.combo(points: 0)
+                        self.gameLogic.resetCombo()
                     }
                 }
             }
@@ -534,7 +533,7 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
         
         
         if player.position.y<25{
-            gameLogic.isGameOver=true
+            self.gameLogic.finishTheGame()
             print("Gameover")
         }
         
