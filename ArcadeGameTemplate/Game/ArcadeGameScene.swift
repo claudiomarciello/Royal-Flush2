@@ -139,7 +139,7 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
     
     
     func createPlayer() {
-        player = SKSpriteNode(texture: SKTexture(imageNamed: "Charakter"), size: CGSize(width: 50, height: 50))
+        player = SKSpriteNode(texture: SKTexture(imageNamed: "character"), size: CGSize(width: 50, height: 50))
         player.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5)
         player.name = "player"
         player.physicsBody = SKPhysicsBody(rectangleOf: player.size)
