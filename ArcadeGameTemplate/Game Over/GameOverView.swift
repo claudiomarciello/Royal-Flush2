@@ -26,20 +26,35 @@ struct GameOverView: View {
                 .ignoresSafeArea()
             
             VStack(alignment: .center) {
+                let state = ArcadeGameLogic.shared
+                let currentScore = state.currentScore
+                let lastScore = state.lastScore
+                let combo = state.currentCombo
+                
                 Spacer()
+                Text("\(currentScore)")
+                    .font(Font.custom("AmericanTypewriter-Bold", size: 68))
+                    .fontWeight(.bold)
                 
-                // Display Player's Score
-                Text("Score: 1500")
-                    .font(.headline)
-                    .foregroundColor(.black)
+                if currentScore > lastScore {
+                    Text("new record!")
+                        .font(Font.custom("AmericanTypewriter-Bold", size: 24))
+                } else {
+                    Text("Your score")
+                        .font(Font.custom("AmericanTypewriter-Bold", size: 24))
+                }
                 
-                // Display Player's Combo
-                Text("Combo: 300")
-                    .font(.headline)
-                    .foregroundColor(.black)
-                    .padding()
+                if combo > 0 || true {
+                    Text("+ \(combo) combo!")
+                        .font(Font.custom("AmericanTypewriter-Bold", size: 38))
+                        .padding()
+                }
                 
-                
+                Text("\(lastScore)")
+                    .font(Font.custom("AmericanTypewriter-Bold", size: 24))
+                Text("Your last score")
+                    .font(Font.custom("AmericanTypewriter-Bold", size: 18))
+            
                 Spacer()
                     
             }
