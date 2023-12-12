@@ -60,18 +60,6 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
     var previousJump : Int = 0
     var lastjumpScored : [Int: Int] = [:]
     var comboMultipl: Int = 0
-    /*
-    var score : Int = 0 {
-        didSet{
-            scoreLabel.text = "Score: \(score)"
-        }
-    }
-    var combo : Int = 1 {
-        didSet{
-            comboLabel.text = "Combo: x\(combo)"
-        }
-    }
-    */
     
     func createBackground() {
         
