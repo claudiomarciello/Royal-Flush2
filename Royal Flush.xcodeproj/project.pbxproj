@@ -19,6 +19,8 @@
 		271CB26E27D6A58A00615359 /* ArcadeGameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271CB26D27D6A58A00615359 /* ArcadeGameScene.swift */; };
 		271CB27027D74CAF00615359 /* GameDurationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271CB26F27D74CAF00615359 /* GameDurationView.swift */; };
 		271CB27227D74CB900615359 /* GameScoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271CB27127D74CB900615359 /* GameScoreView.swift */; };
+		32D560D12B28AD8700E3B2C2 /* GameDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D560D02B28AD8700E3B2C2 /* GameDataModel.swift */; };
+		32D560D32B28AEBE00E3B2C2 /* GameData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D560D22B28AEBE00E3B2C2 /* GameData.swift */; };
 		604AF0412B272DBB00B22622 /* Explosion.sks in Resources */ = {isa = PBXBuildFile; fileRef = 604AF0402B272DBB00B22622 /* Explosion.sks */; };
 /* End PBXBuildFile section */
 
@@ -36,6 +38,8 @@
 		271CB26D27D6A58A00615359 /* ArcadeGameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArcadeGameScene.swift; sourceTree = "<group>"; };
 		271CB26F27D74CAF00615359 /* GameDurationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameDurationView.swift; sourceTree = "<group>"; };
 		271CB27127D74CB900615359 /* GameScoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScoreView.swift; sourceTree = "<group>"; };
+		32D560D02B28AD8700E3B2C2 /* GameDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameDataModel.swift; sourceTree = "<group>"; };
+		32D560D22B28AEBE00E3B2C2 /* GameData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameData.swift; sourceTree = "<group>"; };
 		604AF0402B272DBB00B22622 /* Explosion.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Explosion.sks; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -70,6 +74,7 @@
 		271CB24F27D6569700615359 /* ArcadeGameTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				32D560CE2B28AD5C00E3B2C2 /* Data */,
 				271CB25027D6569700615359 /* ArcadeGameTemplateApp.swift */,
 				271CB25227D6569700615359 /* ContentView.swift */,
 				27EA291327D91416005A20C0 /* Supporting Files */,
@@ -124,6 +129,23 @@
 				271CB26A27D6659600615359 /* Constants.swift */,
 			);
 			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		32D560CE2B28AD5C00E3B2C2 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				32D560CF2B28AD6300E3B2C2 /* Model */,
+				32D560D22B28AEBE00E3B2C2 /* GameData.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		32D560CF2B28AD6300E3B2C2 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				32D560D02B28AD8700E3B2C2 /* GameDataModel.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -198,9 +220,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				271CB27027D74CAF00615359 /* GameDurationView.swift in Sources */,
+				32D560D32B28AEBE00E3B2C2 /* GameData.swift in Sources */,
 				271CB26E27D6A58A00615359 /* ArcadeGameScene.swift in Sources */,
 				271CB26127D656BA00615359 /* MainScreenView.swift in Sources */,
 				271CB25F27D656A800615359 /* ArcadeGameLogic.swift in Sources */,
+				32D560D12B28AD8700E3B2C2 /* GameDataModel.swift in Sources */,
 				271CB25327D6569700615359 /* ContentView.swift in Sources */,
 				271CB27227D74CB900615359 /* GameScoreView.swift in Sources */,
 				271CB25127D6569700615359 /* ArcadeGameTemplateApp.swift in Sources */,

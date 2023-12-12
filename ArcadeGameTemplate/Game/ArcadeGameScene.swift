@@ -103,10 +103,9 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
-    
-    
-    
     override func didMove(to view: SKView) {
+        self.setUpGame()
+        
         self.view?.showsPhysics = true
 
         
@@ -205,7 +204,7 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
         
         
         
-        let obstacle = Obstacle(texture: SKTexture(imageNamed: "Group 1"), size: CGSize(width: CGFloat(150), height: 50))
+        let obstacle = Obstacle(texture: SKTexture(imageNamed: "MetalPipe right"), size: CGSize(width: CGFloat(150), height: 50))
         obstacle.name = "obstacle" + String(obstaclesCreated)
         obstacle.position = CGPoint(x: size.width * CGFloat.random(in: 0.85...1), y: size.height)
         obstacle.physicsBody = SKPhysicsBody(rectangleOf: obstacle.size)
@@ -258,7 +257,7 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
     
     func createObstacleLeft() {
         
-        let obstacle = Obstacle(texture: SKTexture(imageNamed: "Group 2"), size: CGSize(width: CGFloat(150), height: 50))
+        let obstacle = Obstacle(texture: SKTexture(imageNamed: "MetalPipe left"), size: CGSize(width: CGFloat(150), height: 50))
         obstacle.name = "obstacle" + String(obstaclesCreated)
         obstacle.position = CGPoint(x: size.width * CGFloat.random(in: -0.10...0.15), y: size.height)
         obstacle.physicsBody = SKPhysicsBody(rectangleOf: obstacle.size)
@@ -415,7 +414,7 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
                         }
                         else{
                             print("combo broken")
-                            self.gameLogic.combo(points: 0)
+                            self.gameLogic.resetCombo()
                         }
                         lastScored = Int(numberString)!
                         scorePoints()
@@ -423,7 +422,7 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
                         toilet.contactOccurred = true
                     }
                     else if lastjumpScored[previousJump] != Int(numberString)!-1 && lastjumpScored[previousJump] != Int(numberString)! {
-                        self.gameLogic.combo(points: 0)
+                        self.gameLogic.resetCombo()
                     }
                 }
             }
@@ -445,7 +444,7 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
                         }
                         else{
                             print("combo broken")
-                            self.gameLogic.combo(points: 0)
+                            self.gameLogic.resetCombo()
                         }
                         lastScored = Int(numberString)!
                         scorePoints()
@@ -453,7 +452,7 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
                         toilet.contactOccurred = true
                     }
                     else if lastjumpScored[previousJump] != Int(numberString)!-1 && lastjumpScored[previousJump] != Int(numberString)!{
-                        self.gameLogic.combo(points: 0)
+                        self.gameLogic.resetCombo()
                     }
                 }
             }
@@ -534,7 +533,7 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
         
         
         if player.position.y<25{
-            gameLogic.isGameOver=true
+            self.gameLogic.finishTheGame()
             print("Gameover")
         }
         
