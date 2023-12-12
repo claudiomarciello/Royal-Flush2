@@ -23,6 +23,8 @@ class ArcadeGameLogic: ObservableObject {
     
     // Keeps track of the current score of the player
     @Published var currentScore: Int = 0
+    // Keeps track of the current combo's of the player
+    @Published var currentCombo: Int = 0
     
     // Increases the score by a certain amount of points
     func score(points: Int) {
@@ -30,6 +32,10 @@ class ArcadeGameLogic: ObservableObject {
         // TODO: Customize!
         
         self.currentScore = self.currentScore + points
+    }
+    
+    func combo(points: Int) {
+        self.currentCombo = points
     }
     
     // Keep tracks of the duration of the current session in number of seconds
