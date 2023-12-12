@@ -24,6 +24,32 @@ struct GameOverView: View {
                 .ignoresSafeArea()
             
             VStack(alignment: .center) {
+                let state = ArcadeGameLogic.shared
+                let currentScore = state.currentScore
+                let lastScore = state.lastScore
+                
+                if currentScore > lastScore {
+                    Spacer()
+                    Text("\(currentScore)")
+                        .font(Font.custom("AmericanTypewriter-Bold", size: 68))
+                        .fontWeight(.bold)
+                    Text("new record!")
+                        .font(Font.custom("AmericanTypewriter-Bold", size: 24))
+                } else {
+                    Spacer()
+                    Text("\(currentScore)")
+                        .font(Font.custom("AmericanTypewriter-Bold", size: 68))
+                        .fontWeight(.bold)
+                    Text("your current score")
+                        .font(Font.custom("AmericanTypewriter-Bold", size: 24))
+                    
+                    Text("\(lastScore)")
+                        .font(Font.custom("AmericanTypewriter-Bold", size: 24))
+                        .padding(.vertical, 8)
+                    Text("your last score")
+                        .font(Font.custom("AmericanTypewriter-Bold", size: 18))
+                }
+            
                 Spacer()
                 
                 Button {

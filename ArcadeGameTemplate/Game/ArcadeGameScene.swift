@@ -94,10 +94,9 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
-    
-    
-    
     override func didMove(to view: SKView) {
+        self.setUpGame()
+        
         self.view?.showsPhysics = true
 
         
@@ -519,7 +518,7 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
         
         
         if player.position.y<25{
-            gameLogic.isGameOver=true
+            self.gameLogic.finishTheGame()
             print("Gameover")
         }
         
