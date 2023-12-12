@@ -35,7 +35,7 @@ class ArcadeGameLogic: ObservableObject {
     }
     
     func combo(points: Int) {
-        self.currentCombo += points
+        self.currentCombo = points
     }
     
     // Keep tracks of the duration of the current session in number of seconds
