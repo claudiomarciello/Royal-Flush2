@@ -204,7 +204,7 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
         
         
         
-        let obstacle = Obstacle(texture: SKTexture(imageNamed: "Group 1"), size: CGSize(width: CGFloat(150), height: 50))
+        let obstacle = Obstacle(texture: SKTexture(imageNamed: "MetalPipe right"), size: CGSize(width: CGFloat(150), height: 50))
         obstacle.name = "obstacle" + String(obstaclesCreated)
         obstacle.position = CGPoint(x: size.width * CGFloat.random(in: 0.85...1), y: size.height)
         obstacle.physicsBody = SKPhysicsBody(rectangleOf: obstacle.size)
@@ -257,7 +257,7 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
     
     func createObstacleLeft() {
         
-        let obstacle = Obstacle(texture: SKTexture(imageNamed: "Group 2"), size: CGSize(width: CGFloat(150), height: 50))
+        let obstacle = Obstacle(texture: SKTexture(imageNamed: "MetalPipe left"), size: CGSize(width: CGFloat(150), height: 50))
         obstacle.name = "obstacle" + String(obstaclesCreated)
         obstacle.position = CGPoint(x: size.width * CGFloat.random(in: -0.10...0.15), y: size.height)
         obstacle.physicsBody = SKPhysicsBody(rectangleOf: obstacle.size)
