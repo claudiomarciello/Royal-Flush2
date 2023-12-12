@@ -400,7 +400,7 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
                         }
                         else{
                             print("combo broken")
-                            self.gameLogic.combo(points: 0)
+                            self.gameLogic.resetCombo()
                         }
                         lastScored = Int(numberString)!
                         scorePoints()
@@ -408,7 +408,7 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
                         toilet.contactOccurred = true
                     }
                     else if lastjumpScored[previousJump] != Int(numberString)!-1 && lastjumpScored[previousJump] != Int(numberString)! {
-                        self.gameLogic.combo(points: 0)
+                        self.gameLogic.resetCombo()
                     }
                 }
             }
@@ -430,7 +430,7 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
                         }
                         else{
                             print("combo broken")
-                            self.gameLogic.combo(points: 0)
+                            self.gameLogic.resetCombo()
                         }
                         lastScored = Int(numberString)!
                         scorePoints()
@@ -438,7 +438,7 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
                         toilet.contactOccurred = true
                     }
                     else if lastjumpScored[previousJump] != Int(numberString)!-1 && lastjumpScored[previousJump] != Int(numberString)!{
-                        self.gameLogic.combo(points: 0)
+                        self.gameLogic.resetCombo()
                     }
                 }
             }
