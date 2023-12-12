@@ -30,6 +30,15 @@ class Toilet: SKSpriteNode{
         fatalError("init(coder:) has not been implemented")
     }
     
+    func changeTextureWithAnimation(newTexture: SKTexture) {
+            let fadeOut = SKAction.fadeOut(withDuration: 0.1)
+            let changeTexture = SKAction.setTexture(newTexture)
+            let fadeIn = SKAction.fadeIn(withDuration: 0.1)
+            let sequence = SKAction.sequence([fadeOut, changeTexture, fadeIn])
+            
+            self.run(sequence)
+        }
+    
 }
 
 class Treasure: SKSpriteNode{
@@ -153,7 +162,13 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
         let spawnLeft = SKAction.run {
             self.createObstacleLeft()
         }
-        let sequence = SKAction.sequence([wait, spawnRight, wait, spawnLeft])
+        let conditionalAction = SKAction.run {
+            if self.obstaclesCreated%3==0 {
+                    SKAction.wait(forDuration: 1.3)
+                    print("castle")
+                }
+            }
+        let sequence = SKAction.sequence([wait, spawnRight, wait, spawnLeft, conditionalAction])
         let repeatForever = SKAction.repeatForever(sequence)
         run(repeatForever)
     }
@@ -192,7 +207,7 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
         
         let obstacle = Obstacle(texture: SKTexture(imageNamed: "Group 1"), size: CGSize(width: CGFloat(150), height: 50))
         obstacle.name = "obstacle" + String(obstaclesCreated)
-        obstacle.position = CGPoint(x: size.width * 0.85, y: size.height)
+        obstacle.position = CGPoint(x: size.width * CGFloat.random(in: 0.85...1), y: size.height)
         obstacle.physicsBody = SKPhysicsBody(rectangleOf: obstacle.size)
         obstacle.physicsBody?.isDynamic = false
         obstacle.physicsBody?.categoryBitMask = 3
@@ -201,7 +216,7 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
         
         let toilet = Toilet(texture: SKTexture(imageNamed: "opentoilet"), size: CGSize(width: CGFloat(40), height: 60))
         toilet.name = "toilet" + String(obstaclesCreated)
-        toilet.position = CGPoint(x: CGFloat.random(in: obstacle.position.x-50...obstacle.position.x+50), y: obstacle.position.y+50)
+        toilet.position = CGPoint(x: CGFloat.random(in: obstacle.position.x-50...size.width), y: obstacle.position.y+50)
         toilet.physicsBody = SKPhysicsBody(rectangleOf: toilet.size)
         toilet.physicsBody?.isDynamic = false
         toilet.physicsBody?.categoryBitMask = 3
@@ -245,7 +260,7 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
         
         let obstacle = Obstacle(texture: SKTexture(imageNamed: "Group 2"), size: CGSize(width: CGFloat(150), height: 50))
         obstacle.name = "obstacle" + String(obstaclesCreated)
-        obstacle.position = CGPoint(x: size.width * 0.15, y: size.height)
+        obstacle.position = CGPoint(x: size.width * CGFloat.random(in: -0.10...0.15), y: size.height)
         obstacle.physicsBody = SKPhysicsBody(rectangleOf: obstacle.size)
         obstacle.physicsBody?.isDynamic = false
         obstacle.physicsBody?.categoryBitMask = 3
@@ -256,7 +271,7 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
         let toilet = Toilet(texture: SKTexture(imageNamed: "opentoilet"), size: CGSize(width: CGFloat(40), height: 60))
         toilet.name = "toilet" + String(obstaclesCreated)
 
-        toilet.position = CGPoint(x: CGFloat.random(in: obstacle.position.x-50...obstacle.position.x+50), y: obstacle.position.y+50)
+        toilet.position = CGPoint(x: CGFloat.random(in: 0...obstacle.position.x+50), y: obstacle.position.y+50)
         toilet.physicsBody = SKPhysicsBody(rectangleOf: toilet.size)
         toilet.physicsBody?.isDynamic = false
         toilet.physicsBody?.categoryBitMask = 3
@@ -391,7 +406,7 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
    
                     if !toilet.contactOccurred {
                         //toilet.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 40,height:  30))
-                        toilet.texture=SKTexture(imageNamed: "closedtoilet")
+                        toilet.changeTextureWithAnimation(newTexture: SKTexture(imageNamed: "closedtoilet"))
                         print("\(toilet.name) scored")
                         print(Int(numberString)!)
                         if lastjumpScored[previousJump] == Int(numberString)!-1{
@@ -421,7 +436,7 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
                     // For example, increment the score
                     if toilet.contactOccurred == false{
                         //toilet.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 40,height:  30))
-                        toilet.texture=SKTexture(imageNamed: "closedtoilet")
+                        toilet.changeTextureWithAnimation(newTexture: SKTexture(imageNamed: "closedtoilet"))
                         print("\(toilet.name) scored")
                         print(Int(numberString)!)
                         if lastjumpScored[previousJump] == Int(numberString)!-1{
@@ -538,5 +553,7 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
         self.backgroundColor = SKColor.white
         
     }
+    
+    
     
 }
