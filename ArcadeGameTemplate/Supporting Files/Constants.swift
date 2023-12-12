@@ -40,9 +40,9 @@ struct MainScreenProperties {
     static let gameTitle: String = "Royal Flush"
     
     static let gameInstructions: [Instruction] = [
-        (icon: "hand.tap", title: "Tap to Move", description: "Tap on the left and right of the screen to activate the space ship engines."),
-        (icon: "divide.circle", title: "Destroy Asteroids", description: "Destroy asteroids by colliding with them."),
-        (icon: "multiply.circle", title: "Don't let them pass!", description: "If three asteroids pass you lose!")
+        (icon: "hand.tap", title: "Tap to Move", description: "Tap on the left and right of the screen to jump the Toilets."),
+        (icon: "flag.circle", title: "Close Toilets", description: "Close all the Toilets on your way to the Princess."),
+        (icon: "multiply.circle", title: "Don't forget to close the Toilets", description: "If you fall you lose!")
     ]
     
     /**
