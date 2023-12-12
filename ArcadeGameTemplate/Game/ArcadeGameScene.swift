@@ -60,17 +60,6 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
     var previousJump : Int = 0
     var lastjumpScored : [Int: Int] = [:]
     var comboMultipl: Int = 0
-    var score : Int = 0 {
-        didSet{
-            scoreLabel.text = "Score: \(score)"
-        }
-    }
-    var combo : Int = 1 {
-        didSet{
-            comboLabel.text = "Combo: x\(combo)"
-        }
-    }
-    
     
     func createBackground() {
         
@@ -127,7 +116,6 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
         scoreLabel.fontName = "AmericanTypewriter-Bold"
         scoreLabel.fontSize = 18
         scoreLabel.fontColor = UIColor.white
-        score=0
         self.addChild(scoreLabel)
         
         comboLabel = SKLabelNode(text: "Combo: x0")
@@ -135,7 +123,6 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
         comboLabel.fontName = "AmericanTypewriter-Bold"
         comboLabel.fontSize = 18
         comboLabel.fontColor = UIColor.white
-        combo=0
         self.addChild(comboLabel)
         
         
@@ -229,8 +216,11 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
         let remove = SKAction.removeFromParent()
         let sequence = SKAction.sequence([moveDownOb, remove])
         let sequenceToilet = SKAction.sequence([moveDownToilet, remove])
+        let combo = self.gameLogic.currentCombo
         
-        if (combo%5==0 && combo != 0) {let treasure = Treasure(texture: SKTexture(imageNamed: "tile_0067"), size: CGSize(width: 30, height: 30))
+        if (combo % 5 == 0 && combo != 0) {
+            let treasure = Treasure(texture: SKTexture(imageNamed: "tile_0067"), size: CGSize(width: 30, height: 30))
+            
             treasure.position = CGPoint(x: CGFloat.random(in: obstacle.position.x-300...obstacle.position.x-150), y: obstacle.position.y)
             
             treasure.physicsBody = SKPhysicsBody(rectangleOf: treasure.size)
@@ -242,13 +232,12 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
             addChild(treasure)
             let moveDownTreasure = SKAction.moveTo(y: -obstacle.size.height * 0.5, duration: 3.0)
             let sequenceTreasure = SKAction.sequence([moveDownTreasure, remove])
-               
             
-            treasure.run(sequenceTreasure)}
+            treasure.run(sequenceTreasure)
+        }
+        
         obstacle.run(sequence)
         toilet.run(sequenceToilet)
-
-       
     }
     
     
@@ -284,10 +273,9 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
         let remove = SKAction.removeFromParent()
         let sequence = SKAction.sequence([moveDownOb, remove])
         let sequenceToilet = SKAction.sequence([moveDownToilet, remove])
+        let combo = self.gameLogic.currentCombo
 
-
-        
-        if (combo%5==0 && combo != 0){
+        if (combo % 5 == 0 && combo != 0) {
             let treasure = Treasure(texture: SKTexture(imageNamed: "tile_0067"), size: CGSize(width: 30, height: 30))
             treasure.position = CGPoint(x: CGFloat.random(in: obstacle.position.x+150...obstacle.position.x+300), y: obstacle.position.y)
             treasure.physicsBody = SKPhysicsBody(rectangleOf: treasure.size)
@@ -301,7 +289,9 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
             let moveDownTreasure = SKAction.moveTo(y: -obstacle.size.height * 0.5, duration: 3.0)
             let sequenceTreasure = SKAction.sequence([moveDownTreasure, remove])
             
-            treasure.run(sequenceTreasure)}
+            treasure.run(sequenceTreasure)
+        }
+        
         obstacle.run(sequence)
         toilet.run(sequenceToilet)
     }
@@ -398,27 +388,27 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
             if (second.node?.position.y)!+25<player.position.y{
                 if let toilet = childNode(withName: (second.node?.name)!) as? Toilet {
                     let numberString = String(toilet.name!.dropFirst(6))
-
-                    if toilet.contactOccurred == false{
+   
+                    if !toilet.contactOccurred {
                         //toilet.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 40,height:  30))
                         toilet.texture=SKTexture(imageNamed: "closedtoilet")
                         print("\(toilet.name) scored")
                         print(Int(numberString)!)
                         if lastjumpScored[previousJump] == Int(numberString)!-1{
                             print("combo")
-                            combo+=1
+                            self.gameLogic.combo(points: 1)
                         }
                         else{
                             print("combo broken")
-                            combo=0
+                            self.gameLogic.combo(points: 0)
                         }
                         lastScored = Int(numberString)!
                         scorePoints()
                         lastjumpScored[lastJump] = lastScored
                         toilet.contactOccurred = true
                     }
-                    else if lastjumpScored[previousJump] != Int(numberString)!-1 && lastjumpScored[previousJump] != Int(numberString)!  {
-                        combo=0
+                    else if lastjumpScored[previousJump] != Int(numberString)!-1 && lastjumpScored[previousJump] != Int(numberString)! {
+                        self.gameLogic.combo(points: 0)
                     }
                 }
             }
@@ -436,11 +426,11 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
                         print(Int(numberString)!)
                         if lastjumpScored[previousJump] == Int(numberString)!-1{
                             print("combo")
-                            combo+=1
+                            self.gameLogic.combo(points: 1)
                         }
                         else{
                             print("combo broken")
-                            combo=0
+                            self.gameLogic.combo(points: 0)
                         }
                         lastScored = Int(numberString)!
                         scorePoints()
@@ -448,20 +438,20 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
                         toilet.contactOccurred = true
                     }
                     else if lastjumpScored[previousJump] != Int(numberString)!-1 && lastjumpScored[previousJump] != Int(numberString)!{
-                        combo=0
+                        self.gameLogic.combo(points: 0)
                     }
                 }
             }
         }
         
         //contact with a gem
-        if second.collisionBitMask == 1 && first.collisionBitMask == 3{
-            score+=100
+        if second.collisionBitMask == 1 && first.collisionBitMask == 3 {
+            self.gameLogic.score(points: 100)
             torpedoDidCollideWithAlien(torpedoNode: second.node as! SKSpriteNode, alienNode: first.node as! SKSpriteNode)
             first.node?.removeFromParent()
         }
-        else if second.collisionBitMask == 3 && first.collisionBitMask == 1{
-            score+=100
+        else if second.collisionBitMask == 3 && first.collisionBitMask == 1 {
+            self.gameLogic.score(points: 100)
             torpedoDidCollideWithAlien(torpedoNode: first.node as! SKSpriteNode, alienNode: second.node as! SKSpriteNode)
             second.node?.removeFromParent()
         }
@@ -478,28 +468,35 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
         self.run(SKAction.wait(forDuration: 2)){
             explosion.removeFromParent()
         }
-        score+=5
+        self.gameLogic.score(points: 5)
     }
     
     
     func scorePoints(){
-        score+=5
+        let combo = self.gameLogic.currentCombo
+        
+        self.gameLogic.score(points: 5)
         if(combo>1){
             comboMultipl=2
-            score += 5}
+            self.gameLogic.score(points: 5)
+        }
         if(combo>4){
             comboMultipl=4
-            score += 10}
+            self.gameLogic.score(points: 10)
+        }
         if(combo>9){
             comboMultipl=10
-            score += 30}
+            self.gameLogic.score(points: 30)
+        }
         if(combo>19){
             comboMultipl=20
-            score += 50}
+            self.gameLogic.score(points: 50)
+        }
         if(combo>49)
         {
             comboMultipl=40
-            score += 100}
+            self.gameLogic.score(points: 100)
+        }
     }
     
     func setConstraints() {
@@ -525,8 +522,16 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
             gameLogic.isGameOver=true
             print("Gameover")
         }
+        
+        updateUI()
     }
     
+    func updateUI() {
+        // Update score label
+        self.scoreLabel.text = "Score: \(self.gameLogic.currentScore)"
+        // Update combo label
+        self.comboLabel.text = "Combo: x\(self.gameLogic.currentCombo)"
+    }
     
     private func setUpGame() {
         self.gameLogic.setUpGame()
