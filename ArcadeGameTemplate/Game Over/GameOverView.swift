@@ -20,45 +20,64 @@ struct GameOverView: View {
     
     var body: some View {
         ZStack {
-            Color.white
+            Image("BackgroundBlueGradient")
+                .resizable()
+                .scaledToFill()
                 .ignoresSafeArea()
             
             VStack(alignment: .center) {
                 Spacer()
                 
-                Button {
-                    withAnimation { self.backToMainScreen() }
-                } label: {
-                    Image(systemName: "arrow.backward")
-                        .foregroundColor(.black)
-                        .font(.title)
-                }
-                .background(Circle().foregroundColor(Color(uiColor: UIColor.systemGray6)).frame(width: 100, height: 100, alignment: .center))
+                // Display Player's Score
+                Text("Score: 1500")
+                    .font(.headline)
+                    .foregroundColor(.black)
+                
+                // Display Player's Combo
+                Text("Combo: 300")
+                    .font(.headline)
+                    .foregroundColor(.black)
+                    .padding()
+                
                 
                 Spacer()
-                
-                Button {
-                    withAnimation { self.restartGame() }
-                } label: {
-                    Image(systemName: "arrow.clockwise")
-                        .foregroundColor(.black)
-                        .font(.title)
-                }
-                .background(Circle().foregroundColor(Color(uiColor: UIColor.systemGray6)).frame(width: 100, height: 100, alignment: .center))
-                
-                Spacer()
+                    
             }
+            .padding(.bottom, 310)
+            
+                HStack(spacing: 100) {
+                    Button {
+                        withAnimation { self.backToMainScreen() }
+                    } label: {
+                        Image(systemName: "arrow.backward")
+                            .foregroundColor(.black)
+                            .font(.title)
+                    }
+                    .background(Circle().foregroundColor(Color(uiColor: UIColor.systemGray6)).frame(width: 100, height: 100, alignment: .center))
+                    
+                    Button {
+                        withAnimation { self.restartGame() }
+                    } label: {
+                        Image(systemName: "arrow.clockwise")
+                            .foregroundColor(.black)
+                            .font(.title)
+                    }
+                    .background(Circle().foregroundColor(Color(uiColor: UIColor.systemGray6)).frame(width: 100, height: 100, alignment: .center))
+                }
+                
+                
+                .padding(.top, 400)
+            
         }
         .statusBar(hidden: true)
     }
-    
+     
     private func backToMainScreen() {
         self.currentGameState = .mainScreen
     }
     
     private func restartGame() {
         self.currentGameState = .playing
-        
     }
 }
 
