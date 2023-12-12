@@ -31,6 +31,7 @@ class Toilet: SKSpriteNode{
     }
     
 }
+
 class Treasure: SKSpriteNode{
     
     init(texture: SKTexture, size: CGSize) {
@@ -52,13 +53,14 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
      **/
     var gameLogic: ArcadeGameLogic = ArcadeGameLogic.shared
     
-    
+
     
     var obstaclesCreated = 0
     var canJump: Bool = true
     var player: SKSpriteNode!
     var scoreLabel: SKLabelNode!
     var comboLabel: SKLabelNode!
+    var movingWith: SKNode!
     
     var lastScored : Int = 0
     var lastJump : Int = 0
@@ -114,7 +116,8 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
     
     
     override func didMove(to view: SKView) {
-        
+        self.view?.showsPhysics = true
+
         
         physicsWorld.contactDelegate = self
         physicsWorld.gravity = CGVector(dx: 0, dy: -100)
@@ -188,6 +191,8 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
         ground.physicsBody = SKPhysicsBody(rectangleOf: ground.size)
         ground.physicsBody?.isDynamic = false
         ground.physicsBody?.categoryBitMask = 3
+        
+        
         ground.physicsBody?.contactTestBitMask = 1
         
         addChild(ground)
@@ -213,18 +218,15 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
         obstacle.name = "obstacle" + String(obstaclesCreated)
         obstaclesCreated+=1
         obstacle.position = CGPoint(x: size.width * 0.85, y: size.height)
-        
         obstacle.physicsBody = SKPhysicsBody(rectangleOf: obstacle.size)
         obstacle.physicsBody?.isDynamic = false
         obstacle.physicsBody?.categoryBitMask = 3
         obstacle.physicsBody?.contactTestBitMask = 1
         //obstacle.physicsBody?.mass=200
         
-        let toilet = Toilet(texture: SKTexture(imageNamed: ""), size: CGSize(width: CGFloat(50), height: 50))
+        let toilet = Toilet(texture: SKTexture(imageNamed: "opentoilet"), size: CGSize(width: CGFloat(40), height: 60))
         toilet.name = "toilet" + String(obstaclesCreated)
-
         toilet.position = CGPoint(x: CGFloat.random(in: obstacle.position.x-50...obstacle.position.x+50), y: obstacle.position.y+50)
-
         toilet.physicsBody = SKPhysicsBody(rectangleOf: toilet.size)
         toilet.physicsBody?.isDynamic = false
         toilet.physicsBody?.categoryBitMask = 3
@@ -242,7 +244,7 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
         let sequence = SKAction.sequence([moveDownOb, remove])
         let sequenceToilet = SKAction.sequence([moveDownToilet, remove])
         
-        if combo%3==0 {let treasure = Treasure(texture: SKTexture(imageNamed: "tile_0067"), size: CGSize(width: 30, height: 30))
+        if (combo+1)%6==0 {let treasure = Treasure(texture: SKTexture(imageNamed: "tile_0067"), size: CGSize(width: 30, height: 30))
             treasure.position = CGPoint(x: CGFloat.random(in: obstacle.position.x-300...obstacle.position.x-150), y: obstacle.position.y)
             
             treasure.physicsBody = SKPhysicsBody(rectangleOf: treasure.size)
@@ -256,15 +258,6 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
             let moveDownTreasure = SKAction.moveTo(y: -obstacle.size.height * 0.5, duration: 3.0)
             let sequenceTreasure = SKAction.sequence([moveDownTreasure, remove])
                treasure.run(sequenceTreasure)}
-
-        
-        
-        
-       
-        
-        
-
-        
 
     
         obstacle.run(sequence)
@@ -287,7 +280,7 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
         obstacle.physicsBody?.contactTestBitMask = 1
         obstacle.physicsBody?.mass=200
 
-        let toilet = Toilet(texture: SKTexture(imageNamed: ""), size: CGSize(width: CGFloat(50), height: 50))
+        let toilet = Toilet(texture: SKTexture(imageNamed: "opentoilet"), size: CGSize(width: CGFloat(40), height: 60))
         toilet.name = "toilet" + String(obstaclesCreated)
 
         toilet.position = CGPoint(x: CGFloat.random(in: obstacle.position.x-50...obstacle.position.x+50), y: obstacle.position.y+50)
@@ -312,7 +305,7 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
 
 
         
-        if combo%3==0{
+        if (combo+1)%6==0{
             let treasure = Treasure(texture: SKTexture(imageNamed: "tile_0067"), size: CGSize(width: 30, height: 30))
             treasure.position = CGPoint(x: CGFloat.random(in: obstacle.position.x+150...obstacle.position.x+300), y: obstacle.position.y)
             
@@ -390,16 +383,28 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
     
     func didBegin(_ contact: SKPhysicsContact) {
         
-            
-        
+        if(contact.contactPoint.x>player.position.x-25 || contact.contactPoint.x<player.position.x+25 ){
+            if(contact.bodyA.categoryBitMask != 4 && contact.bodyB.categoryBitMask != 4){
+                player.physicsBody?.affectedByGravity=false
+                player.physicsBody?.velocity.dy=0
+                
+                if(contact.bodyA.node==player){
+                    movingWith = contact.bodyB.node as! SKNode
+                    print(movingWith.name)}
+                else{
+                    movingWith = contact.bodyA.node as! SKNode
+                    print(movingWith.name)}}}
+
         
         if (contact.bodyA.categoryBitMask==1 && contact.bodyB.categoryBitMask==3){
-            
+            print(contact.bodyB.velocity.dy)
             canJump=true
             player.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
             player.position.y = contact.bodyB.node!.position.y + player.size.height+400
            
         }else if (contact.bodyA.categoryBitMask==3 && contact.bodyB.categoryBitMask==1){
+            print(contact.bodyB.velocity.dy)
+
             /*let fixedJoint = SKPhysicsJointFixed.joint(withBodyA: contact.bodyA.node!.physicsBody!,
              bodyB: contact.bodyB.node!.physicsBody!,
              anchor: CGPoint(x: contact.bodyA.node!.position.x, y: contact.bodyA.node!.position.y + 50))
@@ -442,10 +447,14 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
                 
                 if let toilet = childNode(withName: (contact.bodyB.node?.name)!) as? Toilet {
                     let numberString = String(toilet.name!.dropFirst(6))
-                    
+                    print("\(player.position.x) - contact: \(contact.contactPoint.x) ")
+
                     // The assignment is possible, do something with the toilet
                     // For example, increment the score
                     if toilet.contactOccurred == false{
+
+                        //toilet.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 40,height:  30))
+                        toilet.texture=SKTexture(imageNamed: "closedtoilet")
                         print("\(toilet.name) scored")
                         print(Int(numberString)!)
                         if lastjumpScored[previousJump] == Int(numberString)!-1{
@@ -472,10 +481,13 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
         else if contact.bodyB.collisionBitMask == 1 && contact.bodyA.collisionBitMask == 2{
             if (contact.bodyA.node?.position.y)!+25<player.position.y{
                 if let toilet = childNode(withName: (contact.bodyA.node?.name)!) as? Toilet {
+                    print("\(player.position.x) - contact: \(contact.contactPoint.x) ")
                     let numberString = String(toilet.name!.dropFirst(6))
                     // The assignment is possible, do something with the toilet
                     // For example, increment the score
                     if toilet.contactOccurred == false{
+                        //toilet.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 40,height:  30))
+                        toilet.texture=SKTexture(imageNamed: "closedtoilet")
                         print("\(toilet.name) scored")
                         print(Int(numberString)!)
                         if lastjumpScored[previousJump] == Int(numberString)!-1{
@@ -573,6 +585,11 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
     
     override func update(_ currentTime: TimeInterval) {
 
+        if(player.physicsBody?.affectedByGravity==false){
+            player.position.y=movingWith.position.y+50
+        }
+        
+        
         if player.position.y<25{
             gameLogic.isGameOver=true
             print("Gameover")
