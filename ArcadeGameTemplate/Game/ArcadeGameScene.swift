@@ -248,17 +248,17 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
         setConstraints()
         //createCastle()
         
-        
+        let topPadding = 40.0
         
         scoreLabel = SKLabelNode(text: "Score: 0")
-        scoreLabel.position = CGPoint(x: 50, y: self.frame.size.height-30)
+        scoreLabel.position = CGPoint(x: 50, y: self.frame.size.height - topPadding)
         scoreLabel.fontName = "AmericanTypewriter-Bold"
         scoreLabel.fontSize = 18
         scoreLabel.fontColor = UIColor.white
         self.addChild(scoreLabel)
         
         comboLabel = SKLabelNode(text: "Combo: x0")
-        comboLabel.position = CGPoint(x: self.frame.size.width-60, y: self.frame.size.height-30)
+        comboLabel.position = CGPoint(x: self.frame.size.width - 60, y: self.frame.size.height - topPadding)
         comboLabel.fontName = "AmericanTypewriter-Bold"
         comboLabel.fontSize = 18
         comboLabel.fontColor = UIColor.white
@@ -734,10 +734,11 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
     
     private func setUpGame() {
         self.gameLogic.setUpGame()
-        self.backgroundColor = SKColor.white
-        
+        self.changeBackgroundColor(.white)
     }
     
-    
+    func changeBackgroundColor(_ color: SKColor) {
+        self.backgroundColor = color
+    }
     
 }
