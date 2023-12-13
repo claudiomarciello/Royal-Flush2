@@ -94,7 +94,7 @@ class ArcadeGameLogic: ObservableObject {
             let gameDataDescriptor = FetchDescriptor<GameDataModel>()
             
             if let gameData = try context.fetch(gameDataDescriptor).first {
-                if lastScore > currentScore {
+                if lastScore < currentScore {
                     gameData.achievements.append(AchievementModel(score: currentScore))
                     try context.save()
                 }

@@ -246,7 +246,7 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
         createGround()
         spawnObstacles()
         setConstraints()
-        //createCastle()
+        createCastle()
         
         
         
@@ -382,7 +382,7 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
         obstacle.physicsBody?.contactTestBitMask = 1
         obstaclesCreated+=1
         
-        let toilet = Toilet(texture: SKTexture(imageNamed: "opentoilet"), size: CGSize(width: CGFloat(40), height: 60))
+        let toilet = Toilet(texture: SKTexture(imageNamed: "openToilet2"), size: CGSize(width: CGFloat(40), height: 60))
         toilet.name = "toilet" + String(obstaclesCreated)
         toilet.position = CGPoint(x: CGFloat.random(in: obstacle.position.x-50...size.width), y: obstacle.position.y+50)
         toilet.physicsBody = SKPhysicsBody(rectangleOf: toilet.size)
@@ -436,7 +436,7 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
         obstaclesCreated+=1
 
 
-        let toilet = Toilet(texture: SKTexture(imageNamed: "opentoilet"), size: CGSize(width: CGFloat(40), height: 60))
+        let toilet = Toilet(texture: SKTexture(imageNamed: "openToilet2"), size: CGSize(width: CGFloat(40), height: 60))
         toilet.name = "toilet" + String(obstaclesCreated)
 
         toilet.position = CGPoint(x: CGFloat.random(in: 0...obstacle.position.x+50), y: obstacle.position.y+50)
@@ -576,7 +576,7 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
    
                     if !toilet.contactOccurred {
                         //toilet.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 40,height:  30))
-                        toilet.changeTextureWithAnimation(newTexture: SKTexture(imageNamed: "closedtoilet"))
+                        toilet.changeTextureWithAnimation(newTexture: SKTexture(imageNamed: "closedToilet2"))
                         print("\(toilet.name) scored")
                         print(Int(numberString)!)
                         if lastjumpScored[previousJump] == Int(numberString)!-1{
@@ -609,7 +609,7 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
                     // For example, increment the score
                     if toilet.contactOccurred == false{
                         //toilet.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 40,height:  30))
-                        toilet.changeTextureWithAnimation(newTexture: SKTexture(imageNamed: "closedtoilet"))
+                        toilet.changeTextureWithAnimation(newTexture: SKTexture(imageNamed: "closedToilet2"))
                         print("\(toilet.name) scored")
                         print(Int(numberString)!)
                         if lastjumpScored[previousJump] == Int(numberString)!-1{
@@ -714,7 +714,7 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
         }
 
         if(player.physicsBody?.affectedByGravity==false){
-           player.position.y=movingWith.position.y+50
+           player.position.y=movingWith.position.y+40
         }
         
         

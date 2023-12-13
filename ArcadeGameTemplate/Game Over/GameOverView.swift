@@ -65,7 +65,7 @@ struct GameOverView: View {
                         withAnimation { self.backToMainScreen() }
                     } label: {
                         Image(systemName: "arrow.backward")
-                            .foregroundColor(.black)
+                            .foregroundColor(.primary)
                             .font(.title)
                     }
                     .background(Circle().foregroundColor(Color(uiColor: UIColor.systemGray6)).frame(width: 100, height: 100, alignment: .center))
@@ -74,7 +74,7 @@ struct GameOverView: View {
                         withAnimation { self.restartGame() }
                     } label: {
                         Image(systemName: "arrow.clockwise")
-                            .foregroundColor(.black)
+                           .foregroundColor(.primary)
                             .font(.title)
                     }
                     .background(Circle().foregroundColor(Color(uiColor: UIColor.systemGray6)).frame(width: 100, height: 100, alignment: .center))
