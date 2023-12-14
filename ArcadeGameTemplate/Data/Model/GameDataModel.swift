@@ -20,9 +20,11 @@ class GameDataModel {
 @Model class AchievementModel {
     var timestamp: Date
     var score: Int
+    var combo: Int
     
-    init(timestamp: Date = Date.now, score: Int) {
+    init(timestamp: Date = Date.now, score: Int, combo: Int) {
         self.timestamp = timestamp
         self.score = score
+        self.combo = combo
     }
 }

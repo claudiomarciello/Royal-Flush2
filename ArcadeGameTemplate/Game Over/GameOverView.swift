@@ -30,31 +30,61 @@ struct GameOverView: View {
                 let currentScore = state.currentScore
                 let lastScore = state.lastScore
                 let combo = state.currentCombo
+                let bestScore = state.bestScore
+                let bestCombo = state.bestCombo
                 
                 Spacer()
                 Text("\(currentScore)")
                     .font(Font.custom("AmericanTypewriter-Bold", size: 68))
                     .fontWeight(.bold)
+                    .foregroundStyle(.black)
+
                 
-                if currentScore > lastScore {
-                    Text("new record!")
+                if currentScore > bestScore {
+                    Text("New record!")
                         .font(Font.custom("AmericanTypewriter-Bold", size: 24))
+                        .foregroundStyle(.black)
+
                 } else {
                     Text("Your score")
                         .font(Font.custom("AmericanTypewriter-Bold", size: 24))
+                        .foregroundStyle(.black)
+
                 }
                 
-                if combo > 0 || true {
-                    Text("+ \(combo) combo!")
-                        .font(Font.custom("AmericanTypewriter-Bold", size: 38))
-                        .padding()
-                }
+                Text("\(combo)")
+                    .font(Font.custom("AmericanTypewriter-Bold", size: 68))
+                    .fontWeight(.bold)
+                    .foregroundStyle(.black)
                 
-                Text("\(lastScore)")
+                if combo > bestCombo {
+                    Text("New Combo Record!")
+                        .font(Font.custom("AmericanTypewriter-Bold", size: 24))
+                        .foregroundStyle(.black)
+
+                } else {
+                    Text("Your combo")
+                        .font(Font.custom("AmericanTypewriter-Bold", size: 24))
+                    .foregroundStyle(.black)}
+                
+                    
+                Text("\(bestCombo)")
                     .font(Font.custom("AmericanTypewriter-Bold", size: 24))
-                Text("Your last score")
+                    .foregroundStyle(.black)
+
+                Text("Your Personal Combo Record")
                     .font(Font.custom("AmericanTypewriter-Bold", size: 18))
-            
+                    .foregroundStyle(.black)
+                    
+                
+                Text("\(bestScore)")
+                    .font(Font.custom("AmericanTypewriter-Bold", size: 24))
+                    .foregroundStyle(.black)
+
+                Text("Your Personal Score Record")
+                    .font(Font.custom("AmericanTypewriter-Bold", size: 18))
+                    .foregroundStyle(.black)
+
                 Spacer()
                     
             }

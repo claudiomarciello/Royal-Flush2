@@ -17,10 +17,11 @@ class ArcadeGameLogic: ObservableObject {
         // TODO: Customize!
         
         self.currentScore = 0
+        self.currentCombo = 0
         self.sessionDuration = 0
         
         self.isGameOver = false
-        
+        resetCombo()
         self.loadScores()
     }
     
@@ -28,8 +29,13 @@ class ArcadeGameLogic: ObservableObject {
     @Published var currentScore: Int = 0
     // Keeps track of the last score of the player
     @Published var lastScore: Int = 0
+    
+    @Published var bestScore: Int = 0
     // Keeps track of the current combo's of the player
     @Published var currentCombo: Int = 0
+    
+    @Published var bestCombo: Int = 0
+    
     
     // Increases the score by a certain amount of points
     func score(points: Int) {
@@ -56,8 +62,6 @@ class ArcadeGameLogic: ObservableObject {
     
     func restartGame() {
         
-        // TODO: Customize!
-        
         self.setUpGame()
     }
     
@@ -81,24 +85,40 @@ class ArcadeGameLogic: ObservableObject {
                 if let lastScore = gameData.achievements.last {
                     self.lastScore = lastScore.score
                 }
+                if let bestScore = gameData.achievements.map({ $0.score }).max() {
+                                self.bestScore = bestScore
+                            }
+                
+                if let bestCombo = gameData.achievements.map({ $0.combo }).max() {
+                                    self.bestCombo = bestCombo
+                                }
+                
             }
         }
     }
     
     func saveScores() {
-        let currentScore = self.currentScore
-        let lastScore = self.lastScore
+        
         
         Task { @MainActor in
             let context = GameData.shared.sharedModelContainer.mainContext
             let gameDataDescriptor = FetchDescriptor<GameDataModel>()
             
+            
             if let gameData = try context.fetch(gameDataDescriptor).first {
-                if lastScore < currentScore {
-                    gameData.achievements.append(AchievementModel(score: currentScore))
-                    try context.save()
-                }
+                
+                
+                
+                gameData.achievements.append(AchievementModel(score: currentScore, combo: currentCombo))
+
+                gameData.achievements = gameData.achievements.filter { $0.score == bestScore ||  $0.score == currentScore || $0.combo == bestCombo}
+
+
+                
+
+                try context.save()
             }
+            
         }
-    }
-}
+    }}
+

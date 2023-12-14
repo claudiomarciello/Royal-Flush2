@@ -246,7 +246,7 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
         createGround()
         spawnObstacles()
         setConstraints()
-        createCastle()
+        //let castle = createCastle()
         
         let topPadding = 40.0
         let horizontalPadding = 60.0
@@ -286,6 +286,8 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
     func spawnObstacles() {
         
         let wait = SKAction.wait(forDuration: 1.3)
+        let waitComposed = SKAction.wait(forDuration: 3)
+
         let spawnRight = SKAction.run {
             if(self.isCastleTime == false){
                 
@@ -294,19 +296,22 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
         let spawnLeft = SKAction.run {
                 self.createObstacleLeft()
         }
-        let conditionalAction = SKAction.run {
-            if self.isCastleTime {
-                let waitAction = SKAction.wait(forDuration: 5)
-                    let createCastleAction = SKAction.run {
-                        self.createCastle()
-                    }
-                    let sequence = SKAction.sequence([waitAction, createCastleAction])
-                    self.run(sequence)
-                }
-            }
+        let newCastle = SKAction.run {
+                self.createCastle()
+
+        }
+        let removeCastle = SKAction.run {
+            self.removeCastle()
+        }
         let sequence = SKAction.sequence([wait, spawnRight, wait, spawnLeft])
-        let repeatForever = SKAction.repeatForever(sequence)
-        run(repeatForever)
+       // let sequenceComposed = SKAction.sequence([sequence, waitComposed])
+        let repeatForever1 = SKAction.repeatForever(sequence)
+        let sequence2 = SKAction.sequence([newCastle, waitComposed, removeCastle, waitComposed])
+        
+        //let repeatForever2 = SKAction.repeatForever(sequence2)
+
+        run(repeatForever1)
+        //run(repeatForever2)
     }
     
     func createCastle(){
@@ -331,6 +336,7 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
         castle.zPosition = -1
         cloud.position = CGPoint(x: size.width*0.5, y: castle.position.y-100)
         cloud.name = "castle"
+        castle.name = "cloud"
         // Add a physical body to the sprite with a body
         cloud.physicsBody = SKPhysicsBody(rectangleOf: cloud.size)
         cloud.physicsBody?.isDynamic = false
@@ -340,7 +346,18 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
         addChild(castle)
         addChild(cloud)
         
+        
     }
+    
+    func removeCastle(){
+        for node in self.children {
+            // Check if the node has a specific name
+            if let nodeName = node.name {
+                if nodeName == "castle" || nodeName == "cloud" {
+                    // Remove the node from the scene
+                    node.removeFromParent()
+                }
+            }    }}
     
     func createGround() {
         let ground = SKSpriteNode(color: .green, size: CGSize(width: 60, height: 50))
@@ -396,6 +413,7 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
         
         let moveDownOb = SKAction.moveTo(y: -obstacle.size.height * 0.5, duration: 3.0)
         let moveDownToilet = SKAction.moveTo(y: -toilet.size.height * 0.5, duration: 3.2)
+        
         let remove = SKAction.removeFromParent()
         let sequence = SKAction.sequence([moveDownOb, remove])
         let sequenceToilet = SKAction.sequence([moveDownToilet, remove])
@@ -536,7 +554,7 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
         
         //Checking if contact with a platform, not with a gem
         if(first.categoryBitMask != 1 && first.categoryBitMask != 4){
-            if(contact.contactPoint.x>player.position.x-25 || contact.contactPoint.x<player.position.x+25 ){
+            if((contact.contactPoint.x>player.position.x-25 || contact.contactPoint.x<player.position.x+25) && contact.contactPoint.y<player.position.y ){
                 player.physicsBody?.affectedByGravity=false
                 player.physicsBody?.velocity.dy=0
                 
@@ -545,7 +563,7 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
                 
             }}
             else if(second.categoryBitMask != 1 && second.categoryBitMask != 4){
-                if(contact.contactPoint.x>player.position.x-25 || contact.contactPoint.x<player.position.x+25 ){
+                if((contact.contactPoint.x>player.position.x-25 || contact.contactPoint.x<player.position.x+25) && contact.contactPoint.y<player.position.y){
                     player.physicsBody?.affectedByGravity=false
                     player.physicsBody?.velocity.dy=0
                     
@@ -716,12 +734,12 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
     
     override func update(_ currentTime: TimeInterval) {
         
-        if (obstaclesCreated % 20 == 0){
+        /*if (obstaclesCreated % 20 == 0){
             print(isCastleTime)
             isCastleTime = true}
         else{
             isCastleTime = false
-        }
+        }*/
 
         if(player.physicsBody?.affectedByGravity==false){
            player.position.y=movingWith.position.y+40
@@ -729,6 +747,7 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
         
         
         if player.position.y<25{
+            
             self.gameLogic.finishTheGame()
         }
         
