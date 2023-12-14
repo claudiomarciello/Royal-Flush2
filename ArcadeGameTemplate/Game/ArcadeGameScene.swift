@@ -81,6 +81,11 @@ class Castle: SKNode {
         fatalError("init(coder:) has not been implemented")
     }}
 
+let bounceInOutAnimation = SKAction.sequence([
+    SKAction.scale(to: 1.1, duration: 0.05),
+    SKAction.scale(to: 1, duration: 0.3)
+])
+
 class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
     
     var gameLogic: ArcadeGameLogic = ArcadeGameLogic.shared
@@ -97,6 +102,10 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
     var previousJump : Int = 0
     var lastjumpScored : [Int: Int] = [:]
     var comboMultipl: Int = 0
+    
+    // UI
+    private let verticalPadding: CGFloat = 40
+    private let horizontalPadding: CGFloat = 16
     
     func createBackground() {
         
@@ -252,18 +261,19 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
         let horizontalPadding = 60.0
         
         scoreLabel = SKLabelNode(text: "Score: 0")
-        scoreLabel.position = CGPoint(x: horizontalPadding, y: self.frame.size.height - topPadding)
         scoreLabel.fontName = "AmericanTypewriter-Bold"
         scoreLabel.fontSize = 18
         scoreLabel.fontColor = UIColor.white
+        scoreLabel.horizontalAlignmentMode = .left
+        scoreLabel.position = CGPoint(x: self.horizontalPadding, y: self.frame.height - self.verticalPadding)
         self.addChild(scoreLabel)
         
         comboLabel = SKLabelNode(text: "Combo: x0")
-        // TODO: Need change to dynamic position depends from line width 
-        comboLabel.position = CGPoint(x: self.frame.size.width - 70.0, y: self.frame.size.height - topPadding)
         comboLabel.fontName = "AmericanTypewriter-Bold"
         comboLabel.fontSize = 18
         comboLabel.fontColor = UIColor.white
+        comboLabel.horizontalAlignmentMode = .right
+        comboLabel.position = CGPoint(x: self.frame.width - self.horizontalPadding, y: self.frame.height - self.verticalPadding)
         self.addChild(comboLabel)
     }
     
@@ -600,6 +610,7 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
                         if lastjumpScored[previousJump] == Int(numberString)!-1{
                             print("combo")
                             self.gameLogic.combo(points: 1)
+                            self.animateComboPoints()
                         }
                         else{
                             print("combo broken")
@@ -633,6 +644,7 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
                         if lastjumpScored[previousJump] == Int(numberString)!-1{
                             print("combo")
                             self.gameLogic.combo(points: 1)
+                            self.animateComboPoints()
                         }
                         else{
                             print("combo broken")
@@ -755,9 +767,7 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func updateUI() {
-        // Update score label
         self.scoreLabel.text = "Score: \(self.gameLogic.currentScore)"
-        // Update combo label
         self.comboLabel.text = "Combo: x\(self.gameLogic.currentCombo)"
     }
     
@@ -771,10 +781,12 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func animateScorePoints() {
-        let animation = SKAction.sequence([
-            SKAction.scale(to: 1.1, duration: 0.05),
-            SKAction.scale(to: 1, duration: 0.3)
-        ])
-        self.scoreLabel.run(animation)
+        self.scoreLabel.removeAllActions()
+        self.scoreLabel.run(bounceInOutAnimation)
+    }
+    
+    func animateComboPoints() {
+        self.comboLabel.removeAllActions()
+        self.comboLabel.run(bounceInOutAnimation)
     }
 }
