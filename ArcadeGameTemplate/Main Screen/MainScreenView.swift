@@ -44,14 +44,12 @@ struct MainScreenView: View {
                  * The game title can be customized to represent the visual identity of the game
                  */
                 Text("\(self.gameTitle)")
-                    .font(.largeTitle)
+                    .font(Font.custom("AmericanTypewriter-Bold", size: 48))
                     .fontWeight(.black)
                     .foregroundColor(Color.black)
                     .padding(.top, 24.0)
                 
                 Spacer()
-                
-                
                 
                 /**
                  * To customize the instructions, check the **Constants.swift** file
@@ -65,8 +63,6 @@ struct MainScreenView: View {
                         }
                     }
                     .border(Color.accentColor, width: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/)
-                    
-                    
                 }
                 
                 Spacer()
@@ -85,6 +81,7 @@ struct MainScreenView: View {
                 .background(self.accentColor)
                 .cornerRadius(10.0)
                 .padding()
+                .padding(.bottom, 16)
                 
             }
             .padding()

@@ -248,23 +248,23 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
         setConstraints()
         createCastle()
         
-        
+        let topPadding = 40.0
+        let horizontalPadding = 60.0
         
         scoreLabel = SKLabelNode(text: "Score: 0")
-        scoreLabel.position = CGPoint(x: 50, y: self.frame.size.height-30)
+        scoreLabel.position = CGPoint(x: horizontalPadding, y: self.frame.size.height - topPadding)
         scoreLabel.fontName = "AmericanTypewriter-Bold"
         scoreLabel.fontSize = 18
         scoreLabel.fontColor = UIColor.white
         self.addChild(scoreLabel)
         
         comboLabel = SKLabelNode(text: "Combo: x0")
-        comboLabel.position = CGPoint(x: self.frame.size.width-60, y: self.frame.size.height-30)
+        // TODO: Need change to dynamic position depends from line width 
+        comboLabel.position = CGPoint(x: self.frame.size.width - 70.0, y: self.frame.size.height - topPadding)
         comboLabel.fontName = "AmericanTypewriter-Bold"
         comboLabel.fontSize = 18
         comboLabel.fontColor = UIColor.white
         self.addChild(comboLabel)
-        
-        
     }
     
     
@@ -639,11 +639,13 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
         //contact with a gem
         if second.collisionBitMask == 1 && first.collisionBitMask == 3 {
             self.gameLogic.score(points: 100)
+            self.animateScorePoints()
             torpedoDidCollideWithAlien(torpedoNode: second.node as! SKSpriteNode, alienNode: first.node as! SKSpriteNode)
             first.node?.removeFromParent()
         }
         else if second.collisionBitMask == 3 && first.collisionBitMask == 1 {
             self.gameLogic.score(points: 100)
+            self.animateScorePoints()
             torpedoDidCollideWithAlien(torpedoNode: first.node as! SKSpriteNode, alienNode: second.node as! SKSpriteNode)
             second.node?.removeFromParent()
         }
@@ -661,34 +663,42 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
             explosion.removeFromParent()
         }
         self.gameLogic.score(points: 5)
+        self.animateScorePoints()
     }
     
     
-    func scorePoints(){
+    func scorePoints() {
         let combo = self.gameLogic.currentCombo
         
         self.gameLogic.score(points: 5)
+        self.animateScorePoints()
+        
         if(combo>1){
             comboMultipl=2
             self.gameLogic.score(points: 5)
+            self.animateScorePoints()
         }
         if(combo>4){
             comboMultipl=4
             self.gameLogic.score(points: 10)
+            self.animateScorePoints()
         }
         if(combo>9){
             player.run(SKAction.setTexture(SKTexture(imageNamed: "satisfiedCharacter")))
             comboMultipl=10
             self.gameLogic.score(points: 30)
+            self.animateScorePoints()
         }
         if(combo>19){
             comboMultipl=20
             self.gameLogic.score(points: 50)
+            self.animateScorePoints()
         }
         if(combo>49)
         {
             comboMultipl=40
             self.gameLogic.score(points: 100)
+            self.animateScorePoints()
         }
     }
     
@@ -734,10 +744,18 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
     
     private func setUpGame() {
         self.gameLogic.setUpGame()
-        self.backgroundColor = SKColor.white
-        
+        self.changeBackgroundColor(.white)
     }
     
+    func changeBackgroundColor(_ color: SKColor) {
+        self.backgroundColor = color
+    }
     
-    
+    func animateScorePoints() {
+        let animation = SKAction.sequence([
+            SKAction.scale(to: 1.1, duration: 0.05),
+            SKAction.scale(to: 1, duration: 0.3)
+        ])
+        self.scoreLabel.run(animation)
+    }
 }

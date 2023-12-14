@@ -41,7 +41,6 @@ struct ArcadeGameView: View {
         scene.size = CGSize(width: screenWidth, height: screenHeight)
         scene.scaleMode = .fill
         
-        
         return scene
     }
     
@@ -51,7 +50,8 @@ struct ArcadeGameView: View {
             SpriteView(scene: self.arcadeGameScene)
                 .frame(width: screenWidth, height: screenHeight)
                 .statusBar(hidden: true)
-            
+                .background(.blue)
+                .ignoresSafeArea()
             
             /*HStack() {
                 /**
