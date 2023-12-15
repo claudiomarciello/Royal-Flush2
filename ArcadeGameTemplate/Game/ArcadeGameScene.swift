@@ -774,43 +774,34 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
     
     func scorePoints() {
         let combo = self.gameLogic.currentCombo
-        
-        self.gameLogic.score(points: 5)
-        self.animateScorePoints()
-        self.playSound(sound: ArcadeGameScene.earnedScoreSound)
+        var points = 5
         
         if(combo>1){
             comboMultipl=2
-            self.gameLogic.score(points: 5)
-            self.animateScorePoints()
-            self.playSound(sound: ArcadeGameScene.earnedScoreSound)
+            points = 5
         }
         if(combo>4){
             comboMultipl=4
-            self.gameLogic.score(points: 10)
-            self.animateScorePoints()
-            self.playSound(sound: ArcadeGameScene.earnedScoreSound)
+            points = 10
         }
         if(combo>9){
             player.run(SKAction.setTexture(SKTexture(imageNamed: "satisfiedCharacter")))
             comboMultipl=10
-            self.gameLogic.score(points: 30)
-            self.animateScorePoints()
-            self.playSound(sound: ArcadeGameScene.earnedScoreSound)
+            points = 30
         }
         if(combo>19){
             comboMultipl=20
-            self.gameLogic.score(points: 50)
-            self.animateScorePoints()
-            self.playSound(sound: ArcadeGameScene.earnedScoreSound)
+            points = 50
         }
         if(combo>49)
         {
             comboMultipl=40
-            self.gameLogic.score(points: 100)
-            self.animateScorePoints()
-            self.playSound(sound: ArcadeGameScene.earnedScoreSound)
+            points = 100
         }
+        
+        self.gameLogic.score(points: points)
+        self.animateScorePoints()
+        self.playSound(sound: ArcadeGameScene.earnedScoreSound)
     }
     
     func setConstraints() {
