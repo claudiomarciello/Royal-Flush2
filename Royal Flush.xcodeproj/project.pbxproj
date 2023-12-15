@@ -23,6 +23,7 @@
 		32D560D32B28AEBE00E3B2C2 /* GameData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D560D22B28AEBE00E3B2C2 /* GameData.swift */; };
 		60189CEA2B2C483200908D93 /* PressStart2P-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 60189CE82B2C473300908D93 /* PressStart2P-Regular.ttf */; };
 		604AF0412B272DBB00B22622 /* Explosion.sks in Resources */ = {isa = PBXBuildFile; fileRef = 604AF0402B272DBB00B22622 /* Explosion.sks */; };
+		688233B62B2CB24F0069087F /* StoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 688233B52B2CB24F0069087F /* StoryView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -44,6 +45,7 @@
 		60189CE82B2C473300908D93 /* PressStart2P-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PressStart2P-Regular.ttf"; sourceTree = "<group>"; };
 		60189CE92B2C47A900908D93 /* Royal-Flush-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Royal-Flush-Info.plist"; sourceTree = "<group>"; };
 		604AF0402B272DBB00B22622 /* Explosion.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Explosion.sks; sourceTree = "<group>"; };
+		688233B52B2CB24F0069087F /* StoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -84,7 +86,7 @@
 				27EA291327D91416005A20C0 /* Supporting Files */,
 				271CB26C27D6A13D00615359 /* Main Screen */,
 				271CB26427D656D700615359 /* Game */,
-				271CB26927D6571000615359 /* Game Over */,
+				271CB26927D6571000615359 /* additionalViews */,
 				271CB25427D6569900615359 /* Assets.xcassets */,
 				60189CE82B2C473300908D93 /* PressStart2P-Regular.ttf */,
 				271CB25627D6569900615359 /* Preview Content */,
@@ -112,12 +114,13 @@
 			path = Game;
 			sourceTree = "<group>";
 		};
-		271CB26927D6571000615359 /* Game Over */ = {
+		271CB26927D6571000615359 /* additionalViews */ = {
 			isa = PBXGroup;
 			children = (
+				688233B52B2CB24F0069087F /* StoryView.swift */,
 				271CB26727D6570800615359 /* GameOverView.swift */,
 			);
-			path = "Game Over";
+			path = additionalViews;
 			sourceTree = "<group>";
 		};
 		271CB26C27D6A13D00615359 /* Main Screen */ = {
@@ -234,6 +237,7 @@
 				271CB25327D6569700615359 /* ContentView.swift in Sources */,
 				271CB27227D74CB900615359 /* GameScoreView.swift in Sources */,
 				271CB25127D6569700615359 /* ArcadeGameTemplateApp.swift in Sources */,
+				688233B62B2CB24F0069087F /* StoryView.swift in Sources */,
 				271CB26B27D6659600615359 /* Constants.swift in Sources */,
 				271CB26827D6570800615359 /* GameOverView.swift in Sources */,
 				271CB26327D656C100615359 /* ArcadeGameView.swift in Sources */,
