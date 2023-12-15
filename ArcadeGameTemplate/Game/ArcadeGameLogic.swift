@@ -74,7 +74,6 @@ class ArcadeGameLogic: ObservableObject {
         }
         
         self.saveScores()
-        print(lastScore)
     }
     
     func loadScores() {

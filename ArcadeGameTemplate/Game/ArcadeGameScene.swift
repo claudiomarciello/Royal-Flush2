@@ -5,6 +5,8 @@
 
 import SpriteKit
 import SwiftUI
+import UIKit
+
 
 class Obstacle: SKSpriteNode {
     var contactOccurred: Bool = false
@@ -87,6 +89,9 @@ let bounceInOutAnimation = SKAction.sequence([
 ])
 
 class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
+    
+    var isDarkMode = false
+
     var CastleExists = false
     
     var gameLogic: ArcadeGameLogic = ArcadeGameLogic.shared
@@ -109,7 +114,7 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
     var comboMultipl: Int = 0
     
     // UI
-    private let verticalPadding: CGFloat = 40
+    private let verticalPadding: CGFloat = 60
     private let horizontalPadding: CGFloat = 16
     
     
@@ -129,14 +134,11 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
         setConstraints()
         //createCastle()
         
-        
-        let topPadding = 40.0
-        let horizontalPadding = 60.0
-        
+
         scoreLabel = SKLabelNode(text: "Score: 0")
         scoreLabel.fontName = "PressStart2P-Regular"
         scoreLabel.fontSize = 12
-        scoreLabel.fontColor = UIColor.black
+        scoreLabel.fontColor = isDarkMode ? UIColor.white : UIColor.black
         scoreLabel.horizontalAlignmentMode = .left
         scoreLabel.position = CGPoint(x: self.horizontalPadding, y: self.frame.height - self.verticalPadding)
         self.addChild(scoreLabel)
@@ -144,13 +146,14 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
         comboLabel = SKLabelNode(text: "Combo: x0")
         comboLabel.fontName = "PressStart2P-Regular"
         comboLabel.fontSize = 12
-        comboLabel.fontColor = UIColor.black
+        comboLabel.fontColor = isDarkMode ? UIColor.white : UIColor.black
         comboLabel.horizontalAlignmentMode = .right
         comboLabel.position = CGPoint(x: self.frame.width - self.horizontalPadding, y: self.frame.height - self.verticalPadding)
         self.addChild(comboLabel)
         
        
     }
+    
     
     
     func createBackground() {
@@ -186,14 +189,32 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
          run(sequence)*/
         
      
-        
+        let skyColor1 = SKColor(red: 99.0/255.0, green: 206.0/255.0, blue: 255.0/255.0, alpha: 1.0)
+        let skyColor3 = SKColor(red: 29.0/255.0, green: 139.0/255.0, blue: 188.0/255.0, alpha: 1.0)
+
          
         //Version1
-        let skyColor1 = SKColor(red: 99.0/255.0, green: 206.0/255.0, blue: 255.0/255.0, alpha: 1.0)
-        let skyColor2 = SKColor(red: 28.0/255.0, green: 160.0/255.0, blue: 219.0/255.0, alpha: 1.0)
+        if !isDarkMode{
+            
+            let background = SKSpriteNode(color: skyColor1, size: CGSize(width: size.width, height: size.height))
+            background.name = "backgroundColor"
+            background.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5)
+            background.zPosition = -2
+            addChild(background)}
+        else{
+            let background = SKSpriteNode(color: skyColor3, size: CGSize(width: size.width, height: size.height))
+            background.name = "backgroundColor"
+            background.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5)
+            background.zPosition = -2
+            addChild(background)
+        }
+
+      /*  let skyColor2 = SKColor(red: 28.0/255.0, green: 160.0/255.0, blue: 219.0/255.0, alpha: 1.0)
         let skyColor3 = SKColor(red: 29.0/255.0, green: 139.0/255.0, blue: 188.0/255.0, alpha: 1.0)
         let backgroundColor1 = SKSpriteNode(color: skyColor1, size: CGSize(width: size.width, height: size.height/3))
-        let backgroundColor2 = SKSpriteNode(color: skyColor2, size: CGSize(width: size.width, height: size.height/3))
+        
+
+         backgroundColor2 = SKSpriteNode(color: skyColor2, size: CGSize(width: size.width, height: size.height/3))
         let backgroundColor3 = SKSpriteNode(color: skyColor3, size: CGSize(width: size.width, height: size.height/3))
         let clouds = SKSpriteNode(texture: SKTexture(imageNamed: "white_clouds"), size: CGSize(width: size.width, height: size.height))
         backgroundColor1.name = "backgroundColor"
@@ -210,7 +231,7 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
         addChild(backgroundColor1)
         addChild(backgroundColor2)
         addChild(backgroundColor3)
-        addChild(clouds)
+        addChild(clouds)*/
          
         
         
@@ -315,7 +336,7 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
         let remove = SKAction.removeFromParent()
 
         // Create a sequence of actions
-        let princessSequence = SKAction.sequence([fadeIn, wait, fadeOut, remove])
+        let princessSequence = SKAction.sequence([wait, fadeIn, wait, fadeOut, remove])
 
         // Run the sequence on the label
         princessQuote.run(princessSequence) {
@@ -323,6 +344,8 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
                 self.QuoteOn = false}
         }
     }
+    
+   
     
     func createCastle(){
 
@@ -350,8 +373,8 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
             
             let moveDownCastle = SKAction.moveTo(y: size.height * 0.5, duration: 3.0)
             let moveDownCloud = SKAction.moveTo(y: (size.height * 0.5)-100, duration: 3.0)
-            let moveDownCastle2 = SKAction.moveTo(y: 0, duration: 3.0)
-            let moveDownCloud2 = SKAction.moveTo(y: -100, duration: 3.0)
+            let moveDownCastle2 = SKAction.moveTo(y: 0, duration: 2)
+            let moveDownCloud2 = SKAction.moveTo(y: -100, duration: 2)
             let waitComposed = SKAction.wait(forDuration: 2)
 
 
@@ -541,7 +564,7 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         
-        backgroundSwitch()
+        //backgroundSwitch()
         
         player.physicsBody?.affectedByGravity=true
         
@@ -588,7 +611,7 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func didBegin(_ contact: SKPhysicsContact) {
-        
+        print(QuoteOn)
         var first = contact.bodyA
         var second = contact.bodyB
         
@@ -666,12 +689,10 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
                         //toilet.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 40,height:  30))
                         toilet.changeTextureWithAnimation(newTexture: SKTexture(imageNamed: "closedToilet2"))
                         if lastjumpScored[previousJump] == Int(numberString)!-1{
-                            print("combo")
                             self.gameLogic.combo(points: 1)
                             self.animateComboPoints()
                         }
                         else{
-                            print("combo broken")
                             self.gameLogic.resetCombo()
                             player.run(SKAction.setTexture(SKTexture(imageNamed: "character")))
 
@@ -720,7 +741,9 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
                 }else{
                     onCloud = false
                 }            }
-        }
+        } else{            
+            onCloud=false
+            QuoteOn=false}
         
         
         
@@ -792,12 +815,19 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
     
     override func update(_ currentTime: TimeInterval) {
         
+        if UIScreen.main.traitCollection.userInterfaceStyle == .dark {
+            print("darkmode")
+            isDarkMode=true
+        }
+        else{
+            print("light mode")
+            isDarkMode=false
+        }
+        
         if onCloud == true && QuoteOn==false{
             princessQuotation()
         }
-        if player.physicsBody?.affectedByGravity == true{
-            onCloud=false
-        }
+
 
         if(player.physicsBody?.affectedByGravity==false){
            player.position.y=movingWith.position.y+40
@@ -818,6 +848,15 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     private func setUpGame() {
+        
+        if UIScreen.main.traitCollection.userInterfaceStyle == .dark {
+            print("darkmode")
+            isDarkMode=true
+        }
+        else{
+            print("light mode")
+            isDarkMode=false
+        }
         self.gameLogic.setUpGame()
         self.changeBackgroundColor(.white)
     }
@@ -836,3 +875,4 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
         self.comboLabel.run(bounceInOutAnimation)
     }
 }
+
