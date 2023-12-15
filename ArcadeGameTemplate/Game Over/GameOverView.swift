@@ -35,55 +35,60 @@ struct GameOverView: View {
                 
                 Spacer()
                 Text("\(currentScore)")
-                    .font(Font.custom("AmericanTypewriter-Bold", size: 68))
+                    .font(Font.custom("PressStart2P-Regular", size: 32))
                     .fontWeight(.bold)
                     .foregroundStyle(.black)
 
                 
                 if currentScore > bestScore {
                     Text("New record!")
-                        .font(Font.custom("AmericanTypewriter-Bold", size: 24))
+                        .font(Font.custom("PressStart2P-Regular", size: 24))
                         .foregroundStyle(.black)
 
                 } else {
                     Text("Your score")
-                        .font(Font.custom("AmericanTypewriter-Bold", size: 24))
+                        .font(Font.custom("PressStart2P-Regular", size: 24))
                         .foregroundStyle(.black)
 
                 }
+                Spacer()
+                
+                Text("\(bestScore)")
+                    .font(Font.custom("PressStart2P-Regular", size: 24))
+                    .foregroundStyle(.black)
+
+                Text("Your Personal Score Record")
+                    .font(Font.custom("PressStart2P-Regular", size: 18))
+                    .foregroundStyle(.black)
+                
+                Spacer()
                 
                 Text("\(combo)")
-                    .font(Font.custom("AmericanTypewriter-Bold", size: 68))
+                    .font(Font.custom("PressStart2P-Regular", size: 32))
                     .fontWeight(.bold)
                     .foregroundStyle(.black)
                 
                 if combo > bestCombo {
                     Text("New Combo Record!")
-                        .font(Font.custom("AmericanTypewriter-Bold", size: 24))
+                        .font(Font.custom("PressStart2P-Regular", size: 24))
                         .foregroundStyle(.black)
 
                 } else {
                     Text("Your combo")
-                        .font(Font.custom("AmericanTypewriter-Bold", size: 24))
+                        .font(Font.custom("PressStart2P-Regular", size: 24))
                     .foregroundStyle(.black)}
+                Spacer()
                 
                     
                 Text("\(bestCombo)")
-                    .font(Font.custom("AmericanTypewriter-Bold", size: 24))
+                    .font(Font.custom("PressStart2P-Regular", size: 24))
                     .foregroundStyle(.black)
 
                 Text("Your Personal Combo Record")
-                    .font(Font.custom("AmericanTypewriter-Bold", size: 18))
+                    .font(Font.custom("PressStart2P-Regular", size: 18))
                     .foregroundStyle(.black)
                     
                 
-                Text("\(bestScore)")
-                    .font(Font.custom("AmericanTypewriter-Bold", size: 24))
-                    .foregroundStyle(.black)
-
-                Text("Your Personal Score Record")
-                    .font(Font.custom("AmericanTypewriter-Bold", size: 18))
-                    .foregroundStyle(.black)
 
                 Spacer()
                     

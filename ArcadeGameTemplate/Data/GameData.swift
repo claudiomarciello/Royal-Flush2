@@ -13,7 +13,7 @@ class GameData {
         let schema = Schema([
             GameDataModel.self
         ])
-        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
+        let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: true)
 
         do {
             let container = try ModelContainer(for: schema, configurations: [modelConfiguration])

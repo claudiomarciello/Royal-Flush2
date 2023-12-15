@@ -87,6 +87,7 @@ let bounceInOutAnimation = SKAction.sequence([
 ])
 
 class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
+    var CastleExists = false
     
     var gameLogic: ArcadeGameLogic = ArcadeGameLogic.shared
     
@@ -95,8 +96,12 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
     var player: SKSpriteNode!
     var scoreLabel: SKLabelNode!
     var comboLabel: SKLabelNode!
+    var princessQuote: SKLabelNode!
+    var onCloud = false
+    var QuoteOn = false
     var movingWith: SKSpriteNode!
-    var isCastleTime: Bool = false
+    var isCastleTime: Bool = true
+    
     var lastScored : Int = 0
     var lastJump : Int = 0
     var previousJump : Int = 0
@@ -106,6 +111,47 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
     // UI
     private let verticalPadding: CGFloat = 40
     private let horizontalPadding: CGFloat = 16
+    
+    
+    
+    override func didMove(to view: SKView) {
+        self.setUpGame()
+        
+        self.view?.showsPhysics = true
+
+        
+        physicsWorld.contactDelegate = self
+        physicsWorld.gravity = CGVector(dx: 0, dy: -100)
+        createBackground()
+        createPlayer()
+        //createGround()
+        spawnObstacles()
+        setConstraints()
+        //createCastle()
+        
+        
+        let topPadding = 40.0
+        let horizontalPadding = 60.0
+        
+        scoreLabel = SKLabelNode(text: "Score: 0")
+        scoreLabel.fontName = "PressStart2P-Regular"
+        scoreLabel.fontSize = 12
+        scoreLabel.fontColor = UIColor.black
+        scoreLabel.horizontalAlignmentMode = .left
+        scoreLabel.position = CGPoint(x: self.horizontalPadding, y: self.frame.height - self.verticalPadding)
+        self.addChild(scoreLabel)
+        
+        comboLabel = SKLabelNode(text: "Combo: x0")
+        comboLabel.fontName = "PressStart2P-Regular"
+        comboLabel.fontSize = 12
+        comboLabel.fontColor = UIColor.black
+        comboLabel.horizontalAlignmentMode = .right
+        comboLabel.position = CGPoint(x: self.frame.width - self.horizontalPadding, y: self.frame.height - self.verticalPadding)
+        self.addChild(comboLabel)
+        
+       
+    }
+    
     
     func createBackground() {
         
@@ -167,53 +213,6 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
         addChild(clouds)
          
         
-
-        
-        /*
-        self.backgroundColor = .black
-        let backgroundTexture = SKTexture(imageNamed: "white_clouds")
-                let background = SKSpriteNode(texture: backgroundTexture, size: CGSize(width: size.width, height: size.height))
-                background.position = CGPoint(x: size.width * 0.5, y: size.height * 1.5)  // Adjusted initial position
-                background.zPosition = -1
-                addChild(background)
-        
-        
-        let skyColor1 = SKColor(red: 99.0/255.0, green: 206.0/255.0, blue: 255.0/255.0, alpha: 1.0)
-               let skyColor2 = SKColor(red: 28.0/255.0, green: 160.0/255.0, blue: 219.0/255.0, alpha: 1.0)
-               let skyColor3 = SKColor(red: 29.0/255.0, green: 139.0/255.0, blue: 188.0/255.0, alpha: 1.0)
-               let backgroundColor1 = SKSpriteNode(color: skyColor1, size: CGSize(width: size.width, height: size.height/3))
-               let backgroundColor2 = SKSpriteNode(color: skyColor2, size: CGSize(width: size.width, height: size.height/3))
-               let backgroundColor3 = SKSpriteNode(color: skyColor3, size: CGSize(width: size.width, height: size.height/3))
-               backgroundColor1.name = "backgroundColor"
-        backgroundColor1.position = CGPoint(x: 0, y: size.height * 0.9)
-               backgroundColor2.name = "backgroundColor"
-               backgroundColor2.position = CGPoint(x: 0, y: size.height * 0.50)
-               backgroundColor3.name = "backgroundColor"
-        backgroundColor3.position = CGPoint(x: 0, y: size.height * 0.1)
-        backgroundColor1.zPosition = -2
-        backgroundColor2.zPosition = -2
-        backgroundColor3.zPosition = -2
-
-               background.addChild(backgroundColor1)
-               background.addChild(backgroundColor2)
-               background.addChild(backgroundColor3)
-        
-
-                let moveDownAction = SKAction.moveBy(x: 0, y: -size.height * 2, duration: 10.0)  // Adjusted duration and distance
-                let resetAction = SKAction.moveBy(x: 0, y: size.height * 4, duration: 0.0)  // Reset to the top of the screen
-                let sequenceAction = SKAction.sequence([moveDownAction, resetAction])
-
-                let repeatAction = SKAction.repeatForever(sequenceAction)
-                background.run(repeatAction)
-
-                // Schedule the creation of the next background
-                let waitAction = SKAction.wait(forDuration: 4)  // Adjust the duration as needed
-                let createNextBackgroundAction = SKAction.run { [weak self] in
-                    self?.createBackground()
-                }
-                let sequence = SKAction.sequence([waitAction, createNextBackgroundAction])
-                run(sequence)*/
-        
         
     }
     
@@ -242,45 +241,11 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
-    override func didMove(to view: SKView) {
-        self.setUpGame()
-        
-        self.view?.showsPhysics = true
-
-        
-        physicsWorld.contactDelegate = self
-        physicsWorld.gravity = CGVector(dx: 0, dy: -100)
-        createBackground()
-        createPlayer()
-        createGround()
-        spawnObstacles()
-        setConstraints()
-        //let castle = createCastle()
-        
-        let topPadding = 40.0
-        let horizontalPadding = 60.0
-        
-        scoreLabel = SKLabelNode(text: "Score: 0")
-        scoreLabel.fontName = "AmericanTypewriter-Bold"
-        scoreLabel.fontSize = 18
-        scoreLabel.fontColor = UIColor.white
-        scoreLabel.horizontalAlignmentMode = .left
-        scoreLabel.position = CGPoint(x: self.horizontalPadding, y: self.frame.height - self.verticalPadding)
-        self.addChild(scoreLabel)
-        
-        comboLabel = SKLabelNode(text: "Combo: x0")
-        comboLabel.fontName = "AmericanTypewriter-Bold"
-        comboLabel.fontSize = 18
-        comboLabel.fontColor = UIColor.white
-        comboLabel.horizontalAlignmentMode = .right
-        comboLabel.position = CGPoint(x: self.frame.width - self.horizontalPadding, y: self.frame.height - self.verticalPadding)
-        self.addChild(comboLabel)
-    }
     
     
     func createPlayer() {
         player = SKSpriteNode(texture: SKTexture(imageNamed: "character"), size: CGSize(width: 50, height: 50))
-        player.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5)
+        player.position = CGPoint(x: size.width * 0.5, y: size.height)
         player.name = "player"
         player.physicsBody = SKPhysicsBody(rectangleOf: player.size)
         player.physicsBody?.categoryBitMask = 1
@@ -293,10 +258,12 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
         addChild(player)
     }
     
+    
+    
     func spawnObstacles() {
         
         let wait = SKAction.wait(forDuration: 1.3)
-        let waitComposed = SKAction.wait(forDuration: 3)
+        let waitComposed = SKAction.wait(forDuration: 2.8)
 
         let spawnRight = SKAction.run {
             if(self.isCastleTime == false){
@@ -304,59 +271,113 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
                 self.createObstacleRight()}
         }
         let spawnLeft = SKAction.run {
-                self.createObstacleLeft()
+            if(self.isCastleTime == false){
+                
+                self.createObstacleLeft()}
         }
         let newCastle = SKAction.run {
+            if self.isCastleTime {
                 self.createCastle()
+            }
 
         }
         let removeCastle = SKAction.run {
             self.removeCastle()
         }
-        let sequence = SKAction.sequence([wait, spawnRight, wait, spawnLeft])
-       // let sequenceComposed = SKAction.sequence([sequence, waitComposed])
-        let repeatForever1 = SKAction.repeatForever(sequence)
-        let sequence2 = SKAction.sequence([newCastle, waitComposed, removeCastle, waitComposed])
-        
-        //let repeatForever2 = SKAction.repeatForever(sequence2)
 
-        run(repeatForever1)
-        //run(repeatForever2)
+        
+        let sequence = SKAction.sequence([wait, spawnRight, wait, spawnLeft])
+        let repeatForever = SKAction.repeatForever(sequence)
+        
+        
+        let sequence2 = SKAction.sequence([newCastle, waitComposed])
+        let repeatForever2 = SKAction.repeatForever(sequence2)
+        run(repeatForever2)
+
+        run(repeatForever)
+    }
+    
+    func princessQuotation() {
+        QuoteOn = true
+
+        let princessQuote = SKLabelNode(text: "Princess")
+        princessQuote.fontName = "PressStart2P-Regular"
+        princessQuote.fontSize = 24
+        princessQuote.fontColor = UIColor.black
+        princessQuote.position = CGPoint(x: size.width / 2, y: size.height - 200)
+        princessQuote.alpha = 0 // Start with an invisible label
+        addChild(princessQuote)
+
+        // Define the actions
+        let fadeIn = SKAction.fadeIn(withDuration: 2)
+        let wait = SKAction.wait(forDuration: 2)
+        let fadeOut = SKAction.fadeOut(withDuration: 1)
+        let remove = SKAction.removeFromParent()
+
+        // Create a sequence of actions
+        let princessSequence = SKAction.sequence([fadeIn, wait, fadeOut, remove])
+
+        // Run the sequence on the label
+        princessQuote.run(princessSequence) {
+            if(self.onCloud==false){
+                self.QuoteOn = false}
+        }
     }
     
     func createCastle(){
-        
-        /*let castle = Castle(spriteCastleTexture: SKTexture(imageNamed: "Castle"), sizeCastle: CGSize(width: 100, height: 200), spriteCloudTexture: SKTexture(imageNamed: "cloudCastle"), sizeCloud: CGSize(width: 150, height: 50))
-        castle.position = CGPoint(x: size.width * 0.5, y: size.height * 0.8)
-        castle.name = "castle"
-        // Add a physical body to the sprite with a body
-        castle.cloud.physicsBody = SKPhysicsBody(rectangleOf: castle.cloud.size)
-        castle.cloud.physicsBody?.isDynamic = false
-        castle.cloud.physicsBody?.categoryBitMask = 3
-        castle.cloud.physicsBody?.contactTestBitMask = 1
 
         
-        
-        addChild(castle)*/
-        
-        
-        let castle = SKSpriteNode(texture: SKTexture(imageNamed: "Castle"), size: CGSize(width: 100, height: 200))
-        let cloud = SKSpriteNode(texture: SKTexture(imageNamed: "cloudCastle"), size: CGSize(width: 150, height: 50))
-        castle.position = CGPoint(x: size.width*0.5, y: size.height*0.8)
-        castle.zPosition = -1
-        cloud.position = CGPoint(x: size.width*0.5, y: castle.position.y-100)
-        cloud.name = "castle"
-        castle.name = "cloud"
-        // Add a physical body to the sprite with a body
-        cloud.physicsBody = SKPhysicsBody(rectangleOf: cloud.size)
-        cloud.physicsBody?.isDynamic = false
-        cloud.physicsBody?.categoryBitMask = 3
-        cloud.physicsBody?.contactTestBitMask = 1
-        
-        addChild(castle)
-        addChild(cloud)
-        
-        
+        if CastleExists == false{
+            CastleExists=true
+            let castle = SKSpriteNode(texture: SKTexture(imageNamed: "Castle"), size: CGSize(width: 100, height: 200))
+            let cloud = SKSpriteNode(texture: SKTexture(imageNamed: "cloudCastle"), size: CGSize(width: 150, height: 50))
+            
+            
+            castle.position = CGPoint(x: size.width*0.5, y: size.height)
+            castle.zPosition = -1
+            cloud.position = CGPoint(x: size.width*0.5, y: castle.position.y-100)
+            cloud.name = "castle"
+            castle.name = "cloud"
+            // Add a physical body to the sprite with a body
+            cloud.physicsBody = SKPhysicsBody(rectangleOf: cloud.size)
+            cloud.physicsBody?.isDynamic = false
+            cloud.physicsBody?.categoryBitMask = 3
+            cloud.physicsBody?.contactTestBitMask = 1
+            cloud.physicsBody?.collisionBitMask = 4
+            
+            addChild(castle)
+            addChild(cloud)
+            
+            let moveDownCastle = SKAction.moveTo(y: size.height * 0.5, duration: 3.0)
+            let moveDownCloud = SKAction.moveTo(y: (size.height * 0.5)-100, duration: 3.0)
+            let moveDownCastle2 = SKAction.moveTo(y: 0, duration: 3.0)
+            let moveDownCloud2 = SKAction.moveTo(y: -100, duration: 3.0)
+            let waitComposed = SKAction.wait(forDuration: 2)
+
+
+            
+            
+            let remove =  SKAction.removeFromParent()
+
+            
+            
+            
+            let castleSequence = SKAction.sequence([moveDownCastle, waitComposed])
+            let cloudSequence = SKAction.sequence([moveDownCloud, waitComposed])
+            let castleSequence2 = SKAction.sequence([moveDownCastle2, remove])
+            let cloudSequence2 = SKAction.sequence([moveDownCloud2, remove])
+            castle.run(castleSequence)
+            cloud.run(cloudSequence){
+                self.CastleExists=false
+                self.isCastleTime=false
+                castle.run(castleSequence2)
+                cloud.run(cloudSequence2)
+            }
+            
+            
+
+        }
+     
     }
     
     func removeCastle(){
@@ -392,8 +413,7 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
         
         
     }
-    
-    
+ 
    
     
     func createObstacleRight() {
@@ -408,6 +428,12 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
         obstacle.physicsBody?.categoryBitMask = 3
         obstacle.physicsBody?.contactTestBitMask = 1
         obstaclesCreated+=1
+        if (obstaclesCreated % 20 == 0 && obstaclesCreated != 0){
+            isCastleTime = true
+        }
+        else{
+            isCastleTime = false
+        }
         
         let toilet = Toilet(texture: SKTexture(imageNamed: "openToilet2"), size: CGSize(width: CGFloat(40), height: 60))
         toilet.name = "toilet" + String(obstaclesCreated)
@@ -462,6 +488,12 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
         obstacle.physicsBody?.categoryBitMask = 3
         obstacle.physicsBody?.contactTestBitMask = 1
         obstaclesCreated+=1
+        if (obstaclesCreated % 20 == 0 && obstaclesCreated != 0){
+            isCastleTime = true
+        }
+        else{
+            isCastleTime = false
+        }
 
 
         let toilet = Toilet(texture: SKTexture(imageNamed: "openToilet2"), size: CGSize(width: CGFloat(40), height: 60))
@@ -569,7 +601,6 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
                 player.physicsBody?.velocity.dy=0
                 
                 movingWith = first.node as! SKSpriteNode
-                print(movingWith.position)
                 
             }}
             else if(second.categoryBitMask != 1 && second.categoryBitMask != 4){
@@ -578,7 +609,6 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
                     player.physicsBody?.velocity.dy=0
                     
                     movingWith = second.node as! SKSpriteNode
-                    print(movingWith.position)
                 }}
 
         //contact with a platform
@@ -605,15 +635,11 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
                     if !toilet.contactOccurred {
                         //toilet.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 40,height:  30))
                         toilet.changeTextureWithAnimation(newTexture: SKTexture(imageNamed: "closedToilet2"))
-                        print("\(toilet.name) scored")
-                        print(Int(numberString)!)
                         if lastjumpScored[previousJump] == Int(numberString)!-1{
-                            print("combo")
                             self.gameLogic.combo(points: 1)
                             self.animateComboPoints()
                         }
                         else{
-                            print("combo broken")
                             player.run(SKAction.setTexture(SKTexture(imageNamed: "character")))
 
                             self.gameLogic.resetCombo()
@@ -639,8 +665,6 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
                     if toilet.contactOccurred == false{
                         //toilet.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 40,height:  30))
                         toilet.changeTextureWithAnimation(newTexture: SKTexture(imageNamed: "closedToilet2"))
-                        print("\(toilet.name) scored")
-                        print(Int(numberString)!)
                         if lastjumpScored[previousJump] == Int(numberString)!-1{
                             print("combo")
                             self.gameLogic.combo(points: 1)
@@ -679,6 +703,28 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
             torpedoDidCollideWithAlien(torpedoNode: first.node as! SKSpriteNode, alienNode: second.node as! SKSpriteNode)
             second.node?.removeFromParent()
         }
+        
+        if first.collisionBitMask == 1 && second.collisionBitMask == 4{
+            if (second.node?.position.y)!+25<player.position.y{
+                if(CastleExists){
+                    onCloud = true
+                }else{
+                    onCloud = false
+                }
+            }
+        }
+        else if second.collisionBitMask == 1 && first.collisionBitMask == 4{
+            if (first.node?.position.y)!+25<player.position.y{
+                if(CastleExists){
+                    onCloud = true
+                }else{
+                    onCloud = false
+                }            }
+        }
+        
+        
+        
+        
         
     }
     
@@ -746,12 +792,12 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
     
     override func update(_ currentTime: TimeInterval) {
         
-        /*if (obstaclesCreated % 20 == 0){
-            print(isCastleTime)
-            isCastleTime = true}
-        else{
-            isCastleTime = false
-        }*/
+        if onCloud == true && QuoteOn==false{
+            princessQuotation()
+        }
+        if player.physicsBody?.affectedByGravity == true{
+            onCloud=false
+        }
 
         if(player.physicsBody?.affectedByGravity==false){
            player.position.y=movingWith.position.y+40

@@ -21,6 +21,7 @@
 		271CB27227D74CB900615359 /* GameScoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 271CB27127D74CB900615359 /* GameScoreView.swift */; };
 		32D560D12B28AD8700E3B2C2 /* GameDataModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D560D02B28AD8700E3B2C2 /* GameDataModel.swift */; };
 		32D560D32B28AEBE00E3B2C2 /* GameData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 32D560D22B28AEBE00E3B2C2 /* GameData.swift */; };
+		60189CEA2B2C483200908D93 /* PressStart2P-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 60189CE82B2C473300908D93 /* PressStart2P-Regular.ttf */; };
 		604AF0412B272DBB00B22622 /* Explosion.sks in Resources */ = {isa = PBXBuildFile; fileRef = 604AF0402B272DBB00B22622 /* Explosion.sks */; };
 /* End PBXBuildFile section */
 
@@ -35,11 +36,13 @@
 		271CB26227D656C100615359 /* ArcadeGameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArcadeGameView.swift; sourceTree = "<group>"; };
 		271CB26727D6570800615359 /* GameOverView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameOverView.swift; sourceTree = "<group>"; };
 		271CB26A27D6659600615359 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		271CB26D27D6A58A00615359 /* ArcadeGameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArcadeGameScene.swift; sourceTree = "<group>"; };
+		271CB26D27D6A58A00615359 /* ArcadeGameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ArcadeGameScene.swift; sourceTree = "<group>"; wrapsLines = 1; };
 		271CB26F27D74CAF00615359 /* GameDurationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameDurationView.swift; sourceTree = "<group>"; };
 		271CB27127D74CB900615359 /* GameScoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScoreView.swift; sourceTree = "<group>"; };
 		32D560D02B28AD8700E3B2C2 /* GameDataModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameDataModel.swift; sourceTree = "<group>"; };
 		32D560D22B28AEBE00E3B2C2 /* GameData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameData.swift; sourceTree = "<group>"; };
+		60189CE82B2C473300908D93 /* PressStart2P-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "PressStart2P-Regular.ttf"; sourceTree = "<group>"; };
+		60189CE92B2C47A900908D93 /* Royal-Flush-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "Royal-Flush-Info.plist"; sourceTree = "<group>"; };
 		604AF0402B272DBB00B22622 /* Explosion.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Explosion.sks; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -57,6 +60,7 @@
 		271CB24427D6569700615359 = {
 			isa = PBXGroup;
 			children = (
+				60189CE92B2C47A900908D93 /* Royal-Flush-Info.plist */,
 				604AF0402B272DBB00B22622 /* Explosion.sks */,
 				271CB24F27D6569700615359 /* ArcadeGameTemplate */,
 				271CB24E27D6569700615359 /* Products */,
@@ -82,6 +86,7 @@
 				271CB26427D656D700615359 /* Game */,
 				271CB26927D6571000615359 /* Game Over */,
 				271CB25427D6569900615359 /* Assets.xcassets */,
+				60189CE82B2C473300908D93 /* PressStart2P-Regular.ttf */,
 				271CB25627D6569900615359 /* Preview Content */,
 			);
 			path = ArcadeGameTemplate;
@@ -206,6 +211,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				60189CEA2B2C483200908D93 /* PressStart2P-Regular.ttf in Resources */,
 				271CB25827D6569900615359 /* Preview Assets.xcassets in Resources */,
 				271CB25527D6569900615359 /* Assets.xcassets in Resources */,
 				604AF0412B272DBB00B22622 /* Explosion.sks in Resources */,
@@ -366,6 +372,7 @@
 				DEVELOPMENT_TEAM = Z993Z64L49;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Royal-Flush-Info.plist";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.arcade-games";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -403,6 +410,7 @@
 				DEVELOPMENT_TEAM = Z993Z64L49;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "Royal-Flush-Info.plist";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.arcade-games";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

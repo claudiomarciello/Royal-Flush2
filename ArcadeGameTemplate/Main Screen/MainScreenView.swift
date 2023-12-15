@@ -44,7 +44,7 @@ struct MainScreenView: View {
                  * The game title can be customized to represent the visual identity of the game
                  */
                 Text("\(self.gameTitle)")
-                    .font(Font.custom("AmericanTypewriter-Bold", size: 48))
+                    .font(Font.custom("PressStart2P-Regular", size: 30))
                     .fontWeight(.black)
                     .foregroundColor(Color.black)
                     .padding(.top, 24.0)
