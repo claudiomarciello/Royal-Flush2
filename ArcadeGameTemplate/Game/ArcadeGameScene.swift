@@ -117,8 +117,6 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
     private let verticalPadding: CGFloat = 60
     private let horizontalPadding: CGFloat = 16
     
-    
-    
     override func didMove(to view: SKView) {
         self.setUpGame()
         
@@ -151,7 +149,7 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
         comboLabel.position = CGPoint(x: self.frame.width - self.horizontalPadding, y: self.frame.height - self.verticalPadding)
         self.addChild(comboLabel)
         
-       
+        self.playSound(sound: ArcadeGameScene.startGameSound)
     }
     
     
@@ -580,6 +578,8 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
             previousJump = lastJump
             lastJump=touchIdentifier
             canJump=false
+            
+            self.playSound(sound: ArcadeGameScene.jumpSound)
         }
     }
     
@@ -658,6 +658,9 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
                     if !toilet.contactOccurred {
                         //toilet.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 40,height:  30))
                         toilet.changeTextureWithAnimation(newTexture: SKTexture(imageNamed: "closedToilet2"))
+                        
+                        self.playSound(sound: ArcadeGameScene.splashToiletsSound)
+                        
                         if lastjumpScored[previousJump] == Int(numberString)!-1{
                             self.gameLogic.combo(points: 1)
                             self.animateComboPoints()
@@ -715,12 +718,14 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
         if second.collisionBitMask == 1 && first.collisionBitMask == 3 {
             self.gameLogic.score(points: 100)
             self.animateScorePoints()
+            self.playSound(sound: ArcadeGameScene.earnedScoreSound)
             torpedoDidCollideWithAlien(torpedoNode: second.node as! SKSpriteNode, alienNode: first.node as! SKSpriteNode)
             first.node?.removeFromParent()
         }
         else if second.collisionBitMask == 3 && first.collisionBitMask == 1 {
             self.gameLogic.score(points: 100)
             self.animateScorePoints()
+            self.playSound(sound: ArcadeGameScene.earnedScoreSound)
             torpedoDidCollideWithAlien(torpedoNode: first.node as! SKSpriteNode, alienNode: second.node as! SKSpriteNode)
             second.node?.removeFromParent()
         }
@@ -763,6 +768,7 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
         }
         self.gameLogic.score(points: 5)
         self.animateScorePoints()
+        self.playSound(sound: ArcadeGameScene.earnedScoreSound)
     }
     
     
@@ -771,33 +777,39 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
         
         self.gameLogic.score(points: 5)
         self.animateScorePoints()
+        self.playSound(sound: ArcadeGameScene.earnedScoreSound)
         
         if(combo>1){
             comboMultipl=2
             self.gameLogic.score(points: 5)
             self.animateScorePoints()
+            self.playSound(sound: ArcadeGameScene.earnedScoreSound)
         }
         if(combo>4){
             comboMultipl=4
             self.gameLogic.score(points: 10)
             self.animateScorePoints()
+            self.playSound(sound: ArcadeGameScene.earnedScoreSound)
         }
         if(combo>9){
             player.run(SKAction.setTexture(SKTexture(imageNamed: "satisfiedCharacter")))
             comboMultipl=10
             self.gameLogic.score(points: 30)
             self.animateScorePoints()
+            self.playSound(sound: ArcadeGameScene.earnedScoreSound)
         }
         if(combo>19){
             comboMultipl=20
             self.gameLogic.score(points: 50)
             self.animateScorePoints()
+            self.playSound(sound: ArcadeGameScene.earnedScoreSound)
         }
         if(combo>49)
         {
             comboMultipl=40
             self.gameLogic.score(points: 100)
             self.animateScorePoints()
+            self.playSound(sound: ArcadeGameScene.earnedScoreSound)
         }
     }
     
@@ -834,8 +846,8 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         
-        if player.position.y<25{
-            
+        if player.position.y<25, !self.gameLogic.isGameOver {
+            self.playSound(sound: ArcadeGameScene.endGameSound)
             self.gameLogic.finishTheGame()
         }
         
@@ -876,3 +888,14 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
     }
 }
 
+extension ArcadeGameScene {
+    static let startGameSound = SKAction.playSoundFileNamed("start-game-sound.wav", waitForCompletion: false)
+    static let earnedScoreSound = SKAction.playSoundFileNamed("earned-score-sound.wav", waitForCompletion: false)
+    static let jumpSound = SKAction.playSoundFileNamed("jump-sound.wav", waitForCompletion: false)
+    static let endGameSound = SKAction.playSoundFileNamed("end-game-sound.wav", waitForCompletion: false)
+    static let splashToiletsSound = SKAction.playSoundFileNamed("splash-toilets-sound.wav", waitForCompletion: false)
+
+    func playSound(sound: SKAction) {
+        run(sound)
+    }
+}
