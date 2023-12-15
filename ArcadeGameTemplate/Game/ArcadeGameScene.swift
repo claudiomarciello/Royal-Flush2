@@ -701,8 +701,6 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
         }
         else if second.collisionBitMask == 3 && first.collisionBitMask == 1 {
             self.addSequentialPoints(points: 100)
-            self.animateScorePoints()
-            self.playSound(sound: ArcadeGameScene.earnedScoreSound)
             torpedoDidCollideWithAlien(torpedoNode: first.node as! SKSpriteNode, alienNode: second.node as! SKSpriteNode)
             second.node?.removeFromParent()
         }
