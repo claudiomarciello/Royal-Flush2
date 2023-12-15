@@ -695,14 +695,12 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
         
         //contact with a gem
         if second.collisionBitMask == 1 && first.collisionBitMask == 3 {
-            self.gameLogic.score(points: 100)
-            self.animateScorePoints()
-            self.playSound(sound: ArcadeGameScene.earnedScoreSound)
+            self.addSequentialPoints(points: 100)
             torpedoDidCollideWithAlien(torpedoNode: second.node as! SKSpriteNode, alienNode: first.node as! SKSpriteNode)
             first.node?.removeFromParent()
         }
         else if second.collisionBitMask == 3 && first.collisionBitMask == 1 {
-            self.gameLogic.score(points: 100)
+            self.addSequentialPoints(points: 100)
             self.animateScorePoints()
             self.playSound(sound: ArcadeGameScene.earnedScoreSound)
             torpedoDidCollideWithAlien(torpedoNode: first.node as! SKSpriteNode, alienNode: second.node as! SKSpriteNode)
@@ -743,9 +741,7 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
         self.run(SKAction.wait(forDuration: 2)){
             explosion.removeFromParent()
         }
-        self.gameLogic.score(points: 5)
-        self.animateScorePoints()
-        self.playSound(sound: ArcadeGameScene.earnedScoreSound)
+        self.addSequentialPoints(points: 5)
     }
     
     
@@ -776,9 +772,7 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
             points = 100
         }
         
-        self.gameLogic.score(points: points)
-        self.animateScorePoints()
-        self.playSound(sound: ArcadeGameScene.earnedScoreSound)
+        self.addSequentialPoints(points: points)
     }
     
     func setConstraints() {
@@ -837,6 +831,20 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
     func animateComboPoints() {
         self.comboLabel.removeAllActions()
         self.comboLabel.run(bounceInOutAnimation)
+    }
+    
+    func addSequentialPoints(points: Int) {
+        let addPointsAction = SKAction.run {
+            self.gameLogic.score(points: 1)
+            self.animateScorePoints()
+            self.playSound(sound: ArcadeGameScene.earnedScoreSound)
+        }
+        
+        let waitAction = SKAction.wait(forDuration: 0.1)
+        let sequence = SKAction.sequence([addPointsAction, waitAction])
+        let repeatAction = SKAction.repeat(sequence, count: points)
+        
+        self.run(repeatAction)
     }
 }
 
