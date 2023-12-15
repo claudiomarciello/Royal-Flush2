@@ -83,7 +83,7 @@ class Castle: SKNode {
 
 let bounceInOutAnimation = SKAction.sequence([
     SKAction.scale(to: 1.1, duration: 0.05),
-    SKAction.scale(to: 1, duration: 0.3)
+    SKAction.scale(to: 1, duration: 0.1)
 ])
 
 class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
