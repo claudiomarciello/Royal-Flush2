@@ -89,7 +89,8 @@ let bounceInOutAnimation = SKAction.sequence([
 ])
 
 class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
-    
+    var clouds: [SKSpriteNode] = []
+
     var isDarkMode = false
 
     var CastleExists = false
@@ -126,6 +127,7 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
         physicsWorld.contactDelegate = self
         physicsWorld.gravity = CGVector(dx: 0, dy: -100)
         createBackground()
+        createClouds()
         createPlayer()
         //createGround()
         spawnObstacles()
@@ -136,7 +138,7 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
         scoreLabel = SKLabelNode(text: "Score: 0")
         scoreLabel.fontName = "PressStart2P-Regular"
         scoreLabel.fontSize = 12
-        scoreLabel.fontColor = isDarkMode ? UIColor.white : UIColor.black
+        scoreLabel.fontColor = UIColor.black
         scoreLabel.horizontalAlignmentMode = .left
         scoreLabel.position = CGPoint(x: self.horizontalPadding, y: self.frame.height - self.verticalPadding)
         self.addChild(scoreLabel)
@@ -144,7 +146,7 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
         comboLabel = SKLabelNode(text: "Combo: x0")
         comboLabel.fontName = "PressStart2P-Regular"
         comboLabel.fontSize = 12
-        comboLabel.fontColor = isDarkMode ? UIColor.white : UIColor.black
+        comboLabel.fontColor = UIColor.black
         comboLabel.horizontalAlignmentMode = .right
         comboLabel.position = CGPoint(x: self.frame.width - self.horizontalPadding, y: self.frame.height - self.verticalPadding)
         self.addChild(comboLabel)
@@ -152,7 +154,21 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
         self.playSound(sound: ArcadeGameScene.startGameSound)
     }
     
-    
+    func createClouds() {
+            // Create the first cloud
+            let cloud1 = SKSpriteNode(texture: SKTexture(imageNamed: "first cloud"), size: CGSize(width: size.width, height: 200))
+            cloud1.position = CGPoint(x: size.width * 0.5, y: size.height * 1.66)
+            cloud1.zPosition = -1
+            addChild(cloud1)
+            clouds.append(cloud1)
+
+            // Create the second cloud
+            let cloud2 = SKSpriteNode(texture: SKTexture(imageNamed: "second cloud"), size: CGSize(width: size.width, height: 200))
+            cloud2.position = CGPoint(x: size.width * 0.5, y: size.height)
+            cloud2.zPosition = -1
+            addChild(cloud2)
+            clouds.append(cloud2)
+        }
     
     func createBackground() {
         
@@ -188,7 +204,7 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
         
      
         let skyColor1 = SKColor(red: 99.0/255.0, green: 206.0/255.0, blue: 255.0/255.0, alpha: 1.0)
-        let skyColor3 = SKColor(red: 29.0/255.0, green: 139.0/255.0, blue: 188.0/255.0, alpha: 1.0)
+        let skyColor3 = SKColor(.indigo)
 
          
         //Version1
@@ -206,6 +222,26 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
             background.zPosition = -2
             addChild(background)
         }
+        /*
+        let clouds = SKSpriteNode(texture: SKTexture(imageNamed: "first cloud"), size: CGSize(width: size.width, height: size.height))
+        clouds.position = CGPoint(x: size.width * 0.5, y: size.height * 1.5)
+         clouds.zPosition = -1
+        
+        let clouds2 = SKSpriteNode(texture: SKTexture(imageNamed: "second cloud"), size: CGSize(width: size.width, height: size.height))
+         clouds2.position = CGPoint(x: size.width * 0.5, y: size.height)
+         clouds2.zPosition = -1
+        addChild(clouds)
+        addChild(clouds2)
+        
+        let moveCloud = SKAction.moveBy(x: 0, y: -clouds.size.height*0.5, duration: 3.0)
+        
+        let resetAction = SKAction.moveBy(x: 0, y: clouds.size.height, duration: 0.0)
+        let sequence = SKAction.sequence([moveCloud, resetAction])
+        let repeatAction = SKAction.repeatForever(sequence)
+
+        clouds.run(repeatAction)
+        clouds2.run(repeatAction)*/
+        
 
       /*  let skyColor2 = SKColor(red: 28.0/255.0, green: 160.0/255.0, blue: 219.0/255.0, alpha: 1.0)
         let skyColor3 = SKColor(red: 29.0/255.0, green: 139.0/255.0, blue: 188.0/255.0, alpha: 1.0)
@@ -214,7 +250,7 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
 
          backgroundColor2 = SKSpriteNode(color: skyColor2, size: CGSize(width: size.width, height: size.height/3))
         let backgroundColor3 = SKSpriteNode(color: skyColor3, size: CGSize(width: size.width, height: size.height/3))
-        let clouds = SKSpriteNode(texture: SKTexture(imageNamed: "white_clouds"), size: CGSize(width: size.width, height: size.height))
+        
         backgroundColor1.name = "backgroundColor"
         backgroundColor1.position = CGPoint(x: size.width * 0.5, y: size.height * 0.9)
         backgroundColor2.name = "backgroundColor"
@@ -224,6 +260,8 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
         backgroundColor1.zPosition = -2
         backgroundColor2.zPosition = -2
         backgroundColor3.zPosition = -2
+       
+       let clouds = SKSpriteNode(texture: SKTexture(imageNamed: "white_clouds"), size: CGSize(width: size.width, height: size.height))
         clouds.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5)
         clouds.zPosition = -1
         addChild(backgroundColor1)
@@ -234,6 +272,20 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
         
         
     }
+    
+    func moveClouds() {
+            let speed: CGFloat = 3.0
+
+            for cloud in clouds {
+                cloud.position.y -= speed
+
+                // Check if the cloud is off the bottom of the screen
+                if cloud.position.y < -cloud.size.height / 2 {
+                    // Respawn the cloud at the top
+                    cloud.position.y = size.height + cloud.size.height / 2
+                }
+            }
+        }
     
     func backgroundSwitch(){
         
@@ -264,7 +316,7 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
     
     func createPlayer() {
         player = SKSpriteNode(texture: SKTexture(imageNamed: "character"), size: CGSize(width: 50, height: 50))
-        player.position = CGPoint(x: size.width * 0.5, y: size.height)
+        player.position = CGPoint(x: size.width * 0.5, y: size.height+300)
         player.name = "player"
         player.physicsBody = SKPhysicsBody(rectangleOf: player.size)
         player.physicsBody?.categoryBitMask = 1
@@ -317,19 +369,26 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func princessQuotation() {
+        
         QuoteOn = true
+        
+        
+        let princessQuote = SKSpriteNode(imageNamed: "princessText")
+        princessQuote.position = CGPoint(x: size.width / 2, y: size.height - 200)
+        princessQuote.size = CGSize(width: size.width-100, height: 200)
+        princessQuote.alpha = 0 // Start with an invisible label*/
 
-        let princessQuote = SKLabelNode(text: "Princess")
+        /*let princessQuote = SKLabelNode(text: "Princess")
         princessQuote.fontName = "PressStart2P-Regular"
         princessQuote.fontSize = 24
         princessQuote.fontColor = UIColor.black
         princessQuote.position = CGPoint(x: size.width / 2, y: size.height - 200)
-        princessQuote.alpha = 0 // Start with an invisible label
+        princessQuote.alpha = 0 // Start with an invisible label*/
         addChild(princessQuote)
 
         // Define the actions
         let fadeIn = SKAction.fadeIn(withDuration: 2)
-        let wait = SKAction.wait(forDuration: 2)
+        let wait = SKAction.wait(forDuration: 1)
         let fadeOut = SKAction.fadeOut(withDuration: 1)
         let remove = SKAction.removeFromParent()
 
@@ -354,7 +413,7 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
             let cloud = SKSpriteNode(texture: SKTexture(imageNamed: "cloudCastle"), size: CGSize(width: 150, height: 50))
             
             
-            castle.position = CGPoint(x: size.width*0.5, y: size.height)
+            castle.position = CGPoint(x: size.width*0.5, y: size.height+150)
             castle.zPosition = -1
             cloud.position = CGPoint(x: size.width*0.5, y: castle.position.y-100)
             cloud.name = "castle"
@@ -628,6 +687,7 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
             }}
             else if(second.categoryBitMask != 1 && second.categoryBitMask != 4){
                 if((contact.contactPoint.x>player.position.x-25 || contact.contactPoint.x<player.position.x+25) && contact.contactPoint.y<player.position.y){
+                    lastJump = previousJump
                     player.physicsBody?.affectedByGravity=false
                     player.physicsBody?.velocity.dy=0
                     
@@ -807,7 +867,7 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
     func setConstraints() {
         // Create constraints to keep the player within the screen frame
         let rangeX = SKRange(lowerLimit:25, upperLimit: size.width-25)
-        let rangeY = SKRange(lowerLimit: 0, upperLimit: size.height)
+        let rangeY = SKRange(lowerLimit: 0, upperLimit: size.height+500)
         
         let constraintX = SKConstraint.positionX(rangeX)
         let constraintY = SKConstraint.positionY(rangeY)
@@ -817,6 +877,7 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func update(_ currentTime: TimeInterval) {
+        moveClouds()
         
         if UIScreen.main.traitCollection.userInterfaceStyle == .dark {
             print("darkmode")
