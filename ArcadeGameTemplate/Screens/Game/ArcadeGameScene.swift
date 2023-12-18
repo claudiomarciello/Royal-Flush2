@@ -839,7 +839,7 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
             self.playSound(sound: ArcadeGameScene.earnedScoreSound)
         }
         
-        let waitAction = SKAction.wait(forDuration: 0.05)
+        let waitAction = SKAction.wait(forDuration: 0.03)
         let sequence = SKAction.sequence([addPointsAction, waitAction])
         let repeatAction = SKAction.repeat(sequence, count: points)
         
