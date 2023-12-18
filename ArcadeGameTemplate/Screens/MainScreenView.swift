@@ -95,6 +95,7 @@ struct MainScreenView: View {
 }
                 } label: {
                     Text("Go!")
+                        .fontWeight(.heavy)
                         .padding()
                         .frame(maxWidth: .infinity)
                 }

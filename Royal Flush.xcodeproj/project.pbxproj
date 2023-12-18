@@ -90,14 +90,12 @@
 		271CB24F27D6569700615359 /* ArcadeGameTemplate */ = {
 			isa = PBXGroup;
 			children = (
-				3207816B2B2C97BA00942B47 /* Resources */,
-				32D560CE2B28AD5C00E3B2C2 /* Data */,
 				271CB25027D6569700615359 /* ArcadeGameTemplateApp.swift */,
 				271CB25227D6569700615359 /* ContentView.swift */,
+				3207816B2B2C97BA00942B47 /* Resources */,
+				32D560CE2B28AD5C00E3B2C2 /* Data */,
 				27EA291327D91416005A20C0 /* Supporting Files */,
-				271CB26C27D6A13D00615359 /* Main Screen */,
-				271CB26427D656D700615359 /* Game */,
-				271CB26927D6571000615359 /* additionalViews */,
+				271CB26C27D6A13D00615359 /* Screens */,
 				271CB25427D6569900615359 /* Assets.xcassets */,
 				60189CE82B2C473300908D93 /* PressStart2P-Regular.ttf */,
 				271CB25627D6569900615359 /* Preview Content */,
@@ -134,12 +132,14 @@
 			path = additionalViews;
 			sourceTree = "<group>";
 		};
-		271CB26C27D6A13D00615359 /* Main Screen */ = {
+		271CB26C27D6A13D00615359 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
 				271CB26027D656BA00615359 /* MainScreenView.swift */,
+				271CB26427D656D700615359 /* Game */,
+				271CB26927D6571000615359 /* additionalViews */,
 			);
-			path = "Main Screen";
+			path = Screens;
 			sourceTree = "<group>";
 		};
 		27EA291327D91416005A20C0 /* Supporting Files */ = {
@@ -173,8 +173,8 @@
 		32D560CE2B28AD5C00E3B2C2 /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				32D560CF2B28AD6300E3B2C2 /* Model */,
 				32D560D22B28AEBE00E3B2C2 /* GameData.swift */,
+				32D560CF2B28AD6300E3B2C2 /* Model */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -409,10 +409,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ArcadeGameTemplate/Preview Content\"";
-				DEVELOPMENT_TEAM = Z993Z64L49;
+				DEVELOPMENT_TEAM = T2V3R3ZLQS;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Royal-Flush-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Royal Flush";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.arcade-games";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -447,10 +448,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ArcadeGameTemplate/Preview Content\"";
-				DEVELOPMENT_TEAM = Z993Z64L49;
+				DEVELOPMENT_TEAM = T2V3R3ZLQS;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Royal-Flush-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Royal Flush";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.arcade-games";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
