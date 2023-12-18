@@ -79,7 +79,6 @@ struct MainScreenView: View {
                         .foregroundColor(Color.black)
                     TextField("\(playerName)", text: $playerName)
                                             .font(Font.custom("PressStart2P-Regular", size: 18))
-                                            .background(Color.primary)
                                             .foregroundStyle(.black)
                                             .padding(.leading, 100)
                                             .cornerRadius(8)
