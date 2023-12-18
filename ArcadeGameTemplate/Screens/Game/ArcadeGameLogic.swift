@@ -22,8 +22,8 @@ class ArcadeGameLogic: ObservableObject {
         
         self.isGameOver = false
         resetCombo()
-        self.saveScores()
-        self.loadScores()
+        self.saveScores{}
+        self.loadScores{}
     }
     
     // Keeps track of the current score of the player
@@ -76,20 +76,19 @@ class ArcadeGameLogic: ObservableObject {
     // Game Over Conditions
     @Published var isGameOver: Bool = false
     
-    func finishTheGame() {
+    func finishTheGame(){
         if self.isGameOver == false {
-            self.saveScores()
-            self.loadScores()
-            print(bestScore)
-            
-            self.isGameOver = true
+            self.saveScores{
+                self.loadScores{
+                    
+                    self.isGameOver = true}}
         }
         
         
-
+        
     }
     
-    func loadScores() {
+    func loadScores(completion: @escaping () -> Void) {
         Task { @MainActor in
             let context = GameData.shared.sharedModelContainer.mainContext
             let gameDataDescriptor = FetchDescriptor<GameDataModel>()
@@ -103,9 +102,9 @@ class ArcadeGameLogic: ObservableObject {
                 var bestScores: [AchievementModel] = []
                 
                 if sortedScores.count >= 1 {
-                                bestScore = sortedScores[0].score
+                    bestScore = sortedScores[0].score
                     bestScores.append(sortedScores[0])
-                            }
+                }
                 if sortedScores.count >= 2{
                     bestScores.append(sortedScores[1])
                 }
@@ -115,19 +114,20 @@ class ArcadeGameLogic: ObservableObject {
                 
                 self.bestGames = bestScores
                 
-            print("best Games updated")
-                            
+                print("best Games updated")
+                
                 
                 
                 if let bestCombo = gameData.achievements.map({ $0.combo }).max() {
-                                    self.bestCombo = bestCombo
-                                }
+                    self.bestCombo = bestCombo
+                }
                 
             }
         }
+        completion()
     }
     
-    func saveScores() {
+    func saveScores(completion: @escaping () -> Void) {
         
         
         Task { @MainActor in
@@ -138,19 +138,26 @@ class ArcadeGameLogic: ObservableObject {
             if let gameData = try context.fetch(gameDataDescriptor).first {
                 
                 
+                if currentScore != -500{
+                    gameData.achievements.append(AchievementModel(score: currentScore, combo: currentCombo, name: name))
+                }
                 
-                gameData.achievements.append(AchievementModel(score: currentScore, combo: currentCombo, name: name))
-
-  
                 
                 //gameData.achievements = gameData.achievements.filter { $0.score == bestScore ||  $0.score == currentScore || $0.combo == bestCombo}
-
+                
+                
+                
+                
+                try context.save()
+            }
 
                 
 
-                try context.save()
-            }
             
         }
-    }}
+        completion()
+        
+    }
+    
+}
 
