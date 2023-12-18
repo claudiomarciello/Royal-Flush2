@@ -18,7 +18,8 @@ struct ContentView: View {
     @State var currentGameState: GameState = .mainScreen
     
     // The game logic is a singleton object shared among the different views of the application
-    @StateObject var gameLogic: ArcadeGameLogic = ArcadeGameLogic()
+    @ObservedObject var gameLogic: ArcadeGameLogic = ArcadeGameLogic()
+    
     
     var body: some View {
         

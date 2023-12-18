@@ -21,10 +21,11 @@ class GameDataModel {
     var timestamp: Date
     var score: Int
     var combo: Int
-    
-    init(timestamp: Date = Date.now, score: Int, combo: Int) {
+    var name: String
+    init(timestamp: Date = Date.now, score: Int, combo: Int, name: String) {
         self.timestamp = timestamp
         self.score = score
         self.combo = combo
+        self.name = name
     }
 }

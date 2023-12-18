@@ -15,13 +15,14 @@ class ArcadeGameLogic: ObservableObject {
     func setUpGame() {
         
         // TODO: Customize!
-        
+        self.bestGames = []
         self.currentScore = -500
         self.currentCombo = 0
         self.sessionDuration = 0
         
         self.isGameOver = false
         resetCombo()
+        self.saveScores()
         self.loadScores()
     }
     
@@ -35,6 +36,8 @@ class ArcadeGameLogic: ObservableObject {
     @Published var currentCombo: Int = 0
     
     @Published var bestCombo: Int = 0
+    @Published var name: String = "Default"
+    @Published var bestGames: [AchievementModel] = []
     
     
     // Increases the score by a certain amount of points
@@ -47,6 +50,10 @@ class ArcadeGameLogic: ObservableObject {
     
     func combo(points: Int) {
         self.currentCombo += points
+    }
+    
+    func InsertName(name: String){
+        self.name = name
     }
     
     func resetCombo() {
@@ -63,6 +70,7 @@ class ArcadeGameLogic: ObservableObject {
     func restartGame() {
         
         self.setUpGame()
+        
     }
     
     // Game Over Conditions
@@ -70,10 +78,15 @@ class ArcadeGameLogic: ObservableObject {
     
     func finishTheGame() {
         if self.isGameOver == false {
+            self.saveScores()
+            self.loadScores()
+            print(bestScore)
+            
             self.isGameOver = true
         }
         
-        self.saveScores()
+        
+
     }
     
     func loadScores() {
@@ -85,9 +98,26 @@ class ArcadeGameLogic: ObservableObject {
                 if let lastScore = gameData.achievements.last {
                     self.lastScore = lastScore.score
                 }
-                if let bestScore = gameData.achievements.map({ $0.score }).max() {
-                                self.bestScore = bestScore
+                
+                let sortedScores = gameData.achievements.sorted { $0.score > $1.score }
+                var bestScores: [AchievementModel] = []
+                
+                if sortedScores.count >= 1 {
+                                bestScore = sortedScores[0].score
+                    bestScores.append(sortedScores[0])
                             }
+                if sortedScores.count >= 2{
+                    bestScores.append(sortedScores[1])
+                }
+                if sortedScores.count >= 3{
+                    bestScores.append(sortedScores[2])
+                }
+                
+                self.bestGames = bestScores
+                
+            print("best Games updated")
+                            
+                
                 
                 if let bestCombo = gameData.achievements.map({ $0.combo }).max() {
                                     self.bestCombo = bestCombo
@@ -109,9 +139,11 @@ class ArcadeGameLogic: ObservableObject {
                 
                 
                 
-                gameData.achievements.append(AchievementModel(score: currentScore, combo: currentCombo))
+                gameData.achievements.append(AchievementModel(score: currentScore, combo: currentCombo, name: name))
 
-                gameData.achievements = gameData.achievements.filter { $0.score == bestScore ||  $0.score == currentScore || $0.combo == bestCombo}
+  
+                
+                //gameData.achievements = gameData.achievements.filter { $0.score == bestScore ||  $0.score == currentScore || $0.combo == bestCombo}
 
 
                 

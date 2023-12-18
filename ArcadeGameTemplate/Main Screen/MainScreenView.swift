@@ -16,6 +16,11 @@ import SwiftUI
 
 struct MainScreenView: View {
     @Environment(\.colorScheme) var colorScheme
+    var gameLogic: ArcadeGameLogic = ArcadeGameLogic.shared
+
+    
+    @State private var playerName: String = "Default"
+
 
     // The game state is used to transition between the different states of the game
     @Binding var currentGameState: GameState
@@ -66,14 +71,28 @@ struct MainScreenView: View {
                     }
                     .border(Color.accentColor, width: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/)
                 }
-                
                 Spacer()
+                VStack{
+                    Text("Enter your name:")
+                        .font(Font.custom("PressStart2P-Regular", size: 18))
+                        .fontWeight(.black)
+                        .foregroundColor(Color.black)
+                    TextField("\(playerName)", text: $playerName)
+                                            .font(Font.custom("PressStart2P-Regular", size: 18))
+                                            .background(Color(.white))
+                                            .padding(.leading, 100)
+                                            .cornerRadius(8)
+                }                        .padding(.bottom, 60.0)
+
+                
                 
                 /**
                  * Customize the appearance of the **Insert a Coin** button to match the visual identity of your game
                  */
                 Button {
-                    withAnimation { self.startGame() }
+                    withAnimation { self.startGame()
+                        gameLogic.InsertName(name: playerName)
+}
                 } label: {
                     Text("Go!")
                         .padding()
@@ -84,6 +103,7 @@ struct MainScreenView: View {
                 .cornerRadius(10.0)
                 .padding()
                 .padding(.bottom, 16)
+
                 
             }
             .padding()

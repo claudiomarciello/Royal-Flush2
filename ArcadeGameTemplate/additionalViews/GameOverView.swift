@@ -15,6 +15,7 @@ import SwiftUI
  **/
 
 struct GameOverView: View {
+    @StateObject var gameLogic: ArcadeGameLogic =  ArcadeGameLogic.shared
     @Environment(\.colorScheme) var colorScheme
 
     @Binding var currentGameState: GameState
@@ -27,12 +28,13 @@ struct GameOverView: View {
                 .ignoresSafeArea()
             
             VStack(alignment: .center) {
-                let state = ArcadeGameLogic.shared
+                let state = gameLogic
                 let currentScore = state.currentScore
                 let lastScore = state.lastScore
                 let combo = state.currentCombo
                 let bestScore = state.bestScore
                 let bestCombo = state.bestCombo
+                let bestGames = state.bestGames
                 
                 
 
@@ -48,6 +50,8 @@ struct GameOverView: View {
                         .fontWeight(.bold)
                         .foregroundStyle(.black)
                         .padding(.bottom, 80)
+                    
+                    
 
                 } else {
                     Text("Score: \(currentScore)")
@@ -92,11 +96,47 @@ struct GameOverView: View {
                 }
                 
 
+                List {
+                       Section(header: Text("Best Games")) {
+                           
+                           HStack {
+                                            Text("Name")
+                                               .font(Font.custom("PressStart2P-Regular", size: 16))
+                                               .foregroundStyle(.black)
+                                           Spacer()
+                                           Text("Score")
+                                               .font(Font.custom("PressStart2P-Regular", size: 16))
+                                               .foregroundStyle(.black)
+                               Spacer()
+                               Text("Combo")
+                                   .font(Font.custom("PressStart2P-Regular", size: 16))
+                                   .foregroundStyle(.black)
+                                       }
+                           
+                           ForEach(bestGames.prefix(3), id: \.self) { game in
+                               HStack {
+                                   Text("\(game.name)")
+                                       .font(Font.custom("PressStart2P-Regular", size: 16))
+                                       .foregroundStyle(.black)
+                                   Spacer()
+                                   Text("\(game.score)")
+                                       .font(Font.custom("PressStart2P-Regular", size: 16))
+                                       .foregroundStyle(.black)
+                                   Spacer()
+                                   Text("x\(game.combo)")
+                                       .font(Font.custom("PressStart2P-Regular", size: 16))
+                                       .foregroundStyle(.black)
+                               }
+                           }
+                       }
+                   }
+                   .listStyle(PlainListStyle())
+                   .background(Color.clear)
+                   .padding(.top, 20)
 
                 
                 
 
-                Spacer()
                     
             }
             .padding(.bottom, 310)
@@ -126,6 +166,9 @@ struct GameOverView: View {
             
         }
         .statusBar(hidden: true)
+        .onAppear {
+            print("Gameover view appeared")
+        }
     }
      
     private func backToMainScreen() {
@@ -139,4 +182,5 @@ struct GameOverView: View {
 
 #Preview {
     GameOverView(currentGameState: .constant(GameState.gameOver))
+
 }
