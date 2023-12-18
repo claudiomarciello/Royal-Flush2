@@ -42,7 +42,7 @@ struct MainScreenProperties {
     static let gameInstructions: [Instruction] = [
         (icon: "hand.tap", title: "Tap, Hold and Drag to Move", description: "Tap on the screen to jump. Hold and drag to move left and right."),
         (icon: "flag.circle", title: "Close Toilets", description: "Close all the toilets on your way to the princess to prevent further accidents."),
-        (icon: "multiply.circle", title: "Make ure to leave no open Toilets", description: "If you fall you lose!")
+        (icon: "multiply.circle", title: "Make Sure to Leave No Open Toilets", description: "If you fall you lose!")
     ]
     
     /**

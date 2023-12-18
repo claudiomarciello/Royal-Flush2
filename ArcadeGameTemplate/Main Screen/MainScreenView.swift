@@ -76,6 +76,7 @@ struct MainScreenView: View {
                     withAnimation { self.startGame() }
                 } label: {
                     Text("Go!")
+                        .fontWeight(.heavy)
                         .padding()
                         .frame(maxWidth: .infinity)
                 }
