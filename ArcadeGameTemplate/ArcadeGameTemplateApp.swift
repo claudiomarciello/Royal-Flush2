@@ -8,9 +8,18 @@ import SwiftData
 
 @main
 struct ArcadeGameTemplateApp: App {
+    @State var isSplashScreenPresented: Bool = true
+
     var body: some Scene {
         WindowGroup {
-            ContentView()
-        }
-    }
+            if !isSplashScreenPresented{
+                
+                ContentView()}
+            
+            else
+            {
+                StoryView(isPresented: $isSplashScreenPresented)
+            }
+            
+        }}
 }

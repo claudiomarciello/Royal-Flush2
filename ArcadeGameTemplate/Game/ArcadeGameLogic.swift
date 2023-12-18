@@ -16,7 +16,7 @@ class ArcadeGameLogic: ObservableObject {
         
         // TODO: Customize!
         
-        self.currentScore = 0
+        self.currentScore = -500
         self.currentCombo = 0
         self.sessionDuration = 0
         

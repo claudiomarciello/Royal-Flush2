@@ -15,12 +15,13 @@ import SwiftUI
  **/
 
 struct GameOverView: View {
-    
+    @Environment(\.colorScheme) var colorScheme
+
     @Binding var currentGameState: GameState
     
     var body: some View {
         ZStack {
-            Image("BackgroundBlueGradient")
+            Image(colorScheme == .dark ? "BackgroundDark" : "BackgroundLight")
                 .resizable()
                 .scaledToFill()
                 .ignoresSafeArea()
@@ -33,61 +34,66 @@ struct GameOverView: View {
                 let bestScore = state.bestScore
                 let bestCombo = state.bestCombo
                 
-                Spacer()
-                Text("\(currentScore)")
-                    .font(Font.custom("PressStart2P-Regular", size: 32))
-                    .fontWeight(.bold)
-                    .foregroundStyle(.black)
+                
 
                 
                 if currentScore > bestScore {
+                    
+                    Text("New record!")
+                        .font(Font.custom("PressStart2P-Regular", size: 24))
+                        .foregroundStyle(.black)                        .padding(.top, 80)
+
+                    Text("Score: \(currentScore)")
+                        .font(Font.custom("PressStart2P-Regular", size: 32))
+                        .fontWeight(.bold)
+                        .foregroundStyle(.black)
+                        .padding(.bottom, 80)
+
+                } else {
+                    Text("Score: \(currentScore)")
+                        .font(Font.custom("PressStart2P-Regular", size: 32))
+                        .foregroundStyle(.black)
+                        .padding(.bottom,5)
+                        .padding(.top, 80)
+
+                    
+                    Text("Score Record: \(bestScore)")
+                        .font(Font.custom("PressStart2P-Regular", size: 18))
+                        .foregroundStyle(.black)
+                        .padding(.bottom, 80)
+
+                }
+                
+
+
+
+                
+                
+                if combo > bestCombo {
+                    
                     Text("New record!")
                         .font(Font.custom("PressStart2P-Regular", size: 24))
                         .foregroundStyle(.black)
-
-                } else {
-                    Text("Your score")
-                        .font(Font.custom("PressStart2P-Regular", size: 24))
+                    Text("Combo: x\(combo)")
+                        .font(Font.custom("PressStart2P-Regular", size: 32))
+                        .fontWeight(.bold)
                         .foregroundStyle(.black)
 
+                } else {
+                    Text("Combo: x\(combo)")
+                        .font(Font.custom("PressStart2P-Regular", size: 24))
+                        .foregroundStyle(.black)
+                        .padding(.bottom,5)
+
+                    Text("Combo Record: x\(bestCombo)")
+                        .font(Font.custom("PressStart2P-Regular", size: 18))
+                        .foregroundStyle(.black)
+                        .padding(.bottom, 50)
                 }
-                Spacer()
                 
-                Text("\(bestScore)")
-                    .font(Font.custom("PressStart2P-Regular", size: 24))
-                    .foregroundStyle(.black)
 
-                Text("Your Personal Score Record")
-                    .font(Font.custom("PressStart2P-Regular", size: 18))
-                    .foregroundStyle(.black)
-                
-                Spacer()
-                
-                Text("\(combo)")
-                    .font(Font.custom("PressStart2P-Regular", size: 32))
-                    .fontWeight(.bold)
-                    .foregroundStyle(.black)
-                
-                if combo > bestCombo {
-                    Text("New Combo Record!")
-                        .font(Font.custom("PressStart2P-Regular", size: 24))
-                        .foregroundStyle(.black)
 
-                } else {
-                    Text("Your combo")
-                        .font(Font.custom("PressStart2P-Regular", size: 24))
-                    .foregroundStyle(.black)}
-                Spacer()
                 
-                    
-                Text("\(bestCombo)")
-                    .font(Font.custom("PressStart2P-Regular", size: 24))
-                    .foregroundStyle(.black)
-
-                Text("Your Personal Combo Record")
-                    .font(Font.custom("PressStart2P-Regular", size: 18))
-                    .foregroundStyle(.black)
-                    
                 
 
                 Spacer()
