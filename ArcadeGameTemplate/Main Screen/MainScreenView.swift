@@ -15,7 +15,8 @@ import SwiftUI
  **/
 
 struct MainScreenView: View {
-    
+    @Environment(\.colorScheme) var colorScheme
+
     // The game state is used to transition between the different states of the game
     @Binding var currentGameState: GameState
     
@@ -29,10 +30,11 @@ struct MainScreenView: View {
     let accentColor: Color = MainScreenProperties.accentColor
     
     var body: some View {
+
         
        ZStack {
             //added the background to the mainscreen
-            Image(decorative: "BackgroundBlueGradient")
+           Image(colorScheme == .dark ? "BackgroundDark" : "BackgroundLight")
                .resizable()
                .scaledToFill()
                .ignoresSafeArea()
@@ -44,10 +46,10 @@ struct MainScreenView: View {
                  * The game title can be customized to represent the visual identity of the game
                  */
                 Text("\(self.gameTitle)")
-                    .font(Font.custom("PressStart2P-Regular", size: 30))
+                    .font(Font.custom("PressStart2P-Regular", size: 32))
                     .fontWeight(.black)
                     .foregroundColor(Color.black)
-                    .padding(.top, 24.0)
+                    .padding(.top, 40.0)
                 
                 Spacer()
                 

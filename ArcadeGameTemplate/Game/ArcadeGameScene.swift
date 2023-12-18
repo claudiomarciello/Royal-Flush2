@@ -109,10 +109,11 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
     var isCastleTime: Bool = true
     
     var lastScored : Int = 0
-    var lastJump : Int = 0
+   /* var lastJump : Int = 0
     var previousJump : Int = 0
-    var lastjumpScored : [Int: Int] = [:]
+    var lastjumpScored : [Int: Int] = [:]*/
     var comboMultipl: Int = 0
+    var CastleReward = false
     
     // UI
     private let verticalPadding: CGFloat = 60
@@ -172,37 +173,6 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
     
     func createBackground() {
         
-        /*
-         // Create a blue sky
-         let skyColor = SKColor(red: 135.0/255.0, green: 206.0/255.0, blue: 250.0/255.0, alpha: 1.0)
-         self.backgroundColor = skyColor
-         
-         // Create and add clouds to the scene
-         let cloudTexture = SKTexture(imageNamed: "pixel_cloud")
-         let cloudSize = CGSize(width: 200, height: 100)
-         
-         // Create three clouds and position them on the scene
-         
-         let cloudNode = SKSpriteNode(texture: cloudTexture, size: cloudSize)
-         cloudNode.position = CGPoint(x: CGFloat.random(in: 0...size.width), y: size.height)
-         cloudNode.zPosition = -1
-         addChild(cloudNode)
-         let moveDownAction = SKAction.moveBy(x: 0, y: -self.size.height - cloudSize.height, duration: 5.0)
-         let removeAction = SKAction.removeFromParent()
-         let sequenceAction = SKAction.sequence([moveDownAction, removeAction])
-         
-         // Run the sequence action on the cloud
-         cloudNode.run(sequenceAction)
-         
-         // Schedule the creation of the next cloud
-         let waitAction = SKAction.wait(forDuration: 2.0)  // Adjust the duration as needed
-         let createNextCloudAction = SKAction.run { [weak self] in
-         self?.createBackground()
-         }
-         let sequence = SKAction.sequence([waitAction, createNextCloudAction])
-         run(sequence)*/
-        
-     
         let skyColor1 = SKColor(red: 99.0/255.0, green: 206.0/255.0, blue: 255.0/255.0, alpha: 1.0)
         let skyColor3 = SKColor(.indigo)
 
@@ -222,54 +192,6 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
             background.zPosition = -2
             addChild(background)
         }
-        /*
-        let clouds = SKSpriteNode(texture: SKTexture(imageNamed: "first cloud"), size: CGSize(width: size.width, height: size.height))
-        clouds.position = CGPoint(x: size.width * 0.5, y: size.height * 1.5)
-         clouds.zPosition = -1
-        
-        let clouds2 = SKSpriteNode(texture: SKTexture(imageNamed: "second cloud"), size: CGSize(width: size.width, height: size.height))
-         clouds2.position = CGPoint(x: size.width * 0.5, y: size.height)
-         clouds2.zPosition = -1
-        addChild(clouds)
-        addChild(clouds2)
-        
-        let moveCloud = SKAction.moveBy(x: 0, y: -clouds.size.height*0.5, duration: 3.0)
-        
-        let resetAction = SKAction.moveBy(x: 0, y: clouds.size.height, duration: 0.0)
-        let sequence = SKAction.sequence([moveCloud, resetAction])
-        let repeatAction = SKAction.repeatForever(sequence)
-
-        clouds.run(repeatAction)
-        clouds2.run(repeatAction)*/
-        
-
-      /*  let skyColor2 = SKColor(red: 28.0/255.0, green: 160.0/255.0, blue: 219.0/255.0, alpha: 1.0)
-        let skyColor3 = SKColor(red: 29.0/255.0, green: 139.0/255.0, blue: 188.0/255.0, alpha: 1.0)
-        let backgroundColor1 = SKSpriteNode(color: skyColor1, size: CGSize(width: size.width, height: size.height/3))
-        
-
-         backgroundColor2 = SKSpriteNode(color: skyColor2, size: CGSize(width: size.width, height: size.height/3))
-        let backgroundColor3 = SKSpriteNode(color: skyColor3, size: CGSize(width: size.width, height: size.height/3))
-        
-        backgroundColor1.name = "backgroundColor"
-        backgroundColor1.position = CGPoint(x: size.width * 0.5, y: size.height * 0.9)
-        backgroundColor2.name = "backgroundColor"
-        backgroundColor2.position = CGPoint(x: size.width * 0.5, y: size.height * 0.50)
-        backgroundColor3.name = "backgroundColor"
-        backgroundColor3.position = CGPoint(x: size.width * 0.5, y: size.height * 0)
-        backgroundColor1.zPosition = -2
-        backgroundColor2.zPosition = -2
-        backgroundColor3.zPosition = -2
-       
-       let clouds = SKSpriteNode(texture: SKTexture(imageNamed: "white_clouds"), size: CGSize(width: size.width, height: size.height))
-        clouds.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5)
-        clouds.zPosition = -1
-        addChild(backgroundColor1)
-        addChild(backgroundColor2)
-        addChild(backgroundColor3)
-        addChild(clouds)*/
-         
-        
         
     }
     
@@ -378,12 +300,6 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
         princessQuote.size = CGSize(width: size.width-100, height: 200)
         princessQuote.alpha = 0 // Start with an invisible label*/
 
-        /*let princessQuote = SKLabelNode(text: "Princess")
-        princessQuote.fontName = "PressStart2P-Regular"
-        princessQuote.fontSize = 24
-        princessQuote.fontColor = UIColor.black
-        princessQuote.position = CGPoint(x: size.width / 2, y: size.height - 200)
-        princessQuote.alpha = 0 // Start with an invisible label*/
         addChild(princessQuote)
 
         // Define the actions
@@ -405,9 +321,11 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
    
     
     func createCastle(){
-
+        
         
         if CastleExists == false{
+            CastleReward = true
+
             CastleExists=true
             let castle = SKSpriteNode(texture: SKTexture(imageNamed: "Castle"), size: CGSize(width: 100, height: 200))
             let cloud = SKSpriteNode(texture: SKTexture(imageNamed: "cloudCastle"), size: CGSize(width: 150, height: 50))
@@ -508,7 +426,9 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
         obstacle.physicsBody?.categoryBitMask = 3
         obstacle.physicsBody?.contactTestBitMask = 1
         obstaclesCreated+=1
-        if (obstaclesCreated % 20 == 0 && obstaclesCreated != 0){
+
+
+        if (obstaclesCreated % 30 == 0 && obstaclesCreated != 0){
             isCastleTime = true
         }
         else{
@@ -568,7 +488,7 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
         obstacle.physicsBody?.categoryBitMask = 3
         obstacle.physicsBody?.contactTestBitMask = 1
         obstaclesCreated+=1
-        if (obstaclesCreated % 20 == 0 && obstaclesCreated != 0){
+        if (obstaclesCreated % 30 == 0 && obstaclesCreated != 0){
             isCastleTime = true
         }
         else{
@@ -620,22 +540,17 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
-        //backgroundSwitch()
-        
+                
         player.physicsBody?.affectedByGravity=true
         
         guard let touch = touches.first else { return }
         let touchIdentifier = touch.hashValue
         
-        
-        
         if(canJump==true){
             
             player.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 500))
             player.physicsBody?.affectedByGravity=true
-            previousJump = lastJump
-            lastJump=touchIdentifier
+
             canJump=false
             
             self.playSound(sound: ArcadeGameScene.jumpSound)
@@ -655,11 +570,9 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
             if horizontalMovement > 0{
                 // Adjust the player's position based on the horizontal movement
                 player.position.x += horizontalMovement
-                // player.physicsBody?.applyForce(CGVector(dx: 100, dy: 0))
             }
             else
             {player.position.x += horizontalMovement
-                //    player.physicsBody?.applyForce(CGVector(dx: -100, dy: 0))}
             }}}
     
     
@@ -670,12 +583,10 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func didBegin(_ contact: SKPhysicsContact) {
-        print(QuoteOn)
         var first = contact.bodyA
         var second = contact.bodyB
         
         /*it should be obstacle size.x/2 instead of 25*/
-        
         //Checking if contact with a platform, not with a gem
         if(first.categoryBitMask != 1 && first.categoryBitMask != 4){
             if((contact.contactPoint.x>player.position.x-25 || contact.contactPoint.x<player.position.x+25) && contact.contactPoint.y<player.position.y ){
@@ -687,7 +598,6 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
             }}
             else if(second.categoryBitMask != 1 && second.categoryBitMask != 4){
                 if((contact.contactPoint.x>player.position.x-25 || contact.contactPoint.x<player.position.x+25) && contact.contactPoint.y<player.position.y){
-                    lastJump = previousJump
                     player.physicsBody?.affectedByGravity=false
                     player.physicsBody?.velocity.dy=0
                     
@@ -716,12 +626,11 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
                     let numberString = String(toilet.name!.dropFirst(6))
    
                     if !toilet.contactOccurred {
-                        //toilet.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 40,height:  30))
                         toilet.changeTextureWithAnimation(newTexture: SKTexture(imageNamed: "closedToilet2"))
                         
                         self.playSound(sound: ArcadeGameScene.splashToiletsSound)
                         
-                        if lastjumpScored[previousJump] == Int(numberString)!-1{
+                        if lastScored == Int(numberString)!-1{
                             self.gameLogic.combo(points: 1)
                             self.animateComboPoints()
                         }
@@ -732,12 +641,7 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
                         }
                         lastScored = Int(numberString)!
                         scorePoints()
-                        lastjumpScored[lastJump] = lastScored
                         toilet.contactOccurred = true
-                    }
-                    else if lastjumpScored[previousJump] != Int(numberString)!-1 && lastjumpScored[previousJump] != Int(numberString)! {
-                        player.run(SKAction.setTexture(SKTexture(imageNamed: "character")))
-                        self.gameLogic.resetCombo()
                     }
                 }
             }
@@ -751,7 +655,7 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
                     if toilet.contactOccurred == false{
                         //toilet.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 40,height:  30))
                         toilet.changeTextureWithAnimation(newTexture: SKTexture(imageNamed: "closedToilet2"))
-                        if lastjumpScored[previousJump] == Int(numberString)!-1{
+                        if lastScored == Int(numberString)!-1{
                             self.gameLogic.combo(points: 1)
                             self.animateComboPoints()
                         }
@@ -762,14 +666,9 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
                         }
                         lastScored = Int(numberString)!
                         scorePoints()
-                        lastjumpScored[lastJump] = lastScored
                         toilet.contactOccurred = true
                     }
-                    else if lastjumpScored[previousJump] != Int(numberString)!-1 && lastjumpScored[previousJump] != Int(numberString)!{
-                        self.gameLogic.resetCombo()
-                        player.run(SKAction.setTexture(SKTexture(imageNamed: "character")))
 
-                    }
                 }
             }
         }
@@ -787,6 +686,9 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         if first.collisionBitMask == 1 && second.collisionBitMask == 4{
+            if CastleReward == true{
+                gameLogic.score(points: 500)
+                CastleReward=false}
             if (second.node?.position.y)!+25<player.position.y{
                 if(CastleExists){
                     onCloud = true
@@ -796,6 +698,9 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
         else if second.collisionBitMask == 1 && first.collisionBitMask == 4{
+            if CastleReward == true{
+                gameLogic.score(points: 500)
+            CastleReward=false}
             if (first.node?.position.y)!+25<player.position.y{
                 if(CastleExists){
                     onCloud = true
@@ -872,11 +777,9 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
         moveClouds()
         
         if UIScreen.main.traitCollection.userInterfaceStyle == .dark {
-            print("darkmode")
             isDarkMode=true
         }
         else{
-            print("light mode")
             isDarkMode=false
         }
         
@@ -906,11 +809,9 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
     private func setUpGame() {
         
         if UIScreen.main.traitCollection.userInterfaceStyle == .dark {
-            print("darkmode")
             isDarkMode=true
         }
         else{
-            print("light mode")
             isDarkMode=false
         }
         self.gameLogic.setUpGame()

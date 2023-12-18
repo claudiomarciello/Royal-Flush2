@@ -9,8 +9,6 @@ import SwiftUI
 
 struct StoryView: View {
     
-    @Environment(\.colorScheme) var colorScheme
-
     @Binding var isPresented: Bool
     
     @State private var scale = CGSize(width: 0.8, height: 0.8)
@@ -19,25 +17,16 @@ struct StoryView: View {
     @State private var opacity = 1.0
     let frameCount = 10 // frames need to be named from name0.png to name95.png
     
-    @State private var currentFrame: Int = 0
+        @State private var currentFrame: Int = 0
     
     var body: some View {
         ZStack{
-            //Image("BackgroundLight").ignoresSafeArea().aspectRatio(contentMode: .fill)
+            Image("BackgroundLight").ignoresSafeArea().aspectRatio(contentMode: .fill)
             VStack {
-                
-                Text("Oh No!!! The Princess got stolen by a Toilet!")
-                    .font(Font.custom("PressStart2P-Regular", size: 28))
-                    //.fontWeight(.bold)
-                    .multilineTextAlignment(.center)
-                    .foregroundStyle(colorScheme == .dark ? Color.white : Color.black)
-                    .padding(.vertical, 50)
-                Spacer()
-                Spacer()
                 Image("story\(currentFrame)")
                     .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .offset(y:15)
+                    .aspectRatio(contentMode: .fit)
+                    .offset(y:-30)
                 // .frame(width: geometry.size.width, height: geometry.size.height)
                     .onAppear {
                         // Create a timer for the animation loop
@@ -46,7 +35,10 @@ struct StoryView: View {
                         }
                     }
                 
-               
+                Text("Oh No!!! The Princess got stolen by a Toilet!")
+                    .font(Font.custom("PressStart2P-Regular", size: 20))
+                    .fontWeight(.bold)
+                    .foregroundStyle(.black)
             }
             .padding()
             .opacity(opacity)
@@ -56,14 +48,14 @@ struct StoryView: View {
                     systemImageOpacity = 1
                 }
                 
-                DispatchQueue.main.asyncAfter(deadline: .now() + 5, execute: {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2.5, execute: {
                     withAnimation(.easeIn(duration: 0.35)){
                         opacity = 0
                     }
                 })
                 
                 // This DQMaA will take the user to the main page.
-                DispatchQueue.main.asyncAfter(deadline: .now() + 5, execute: {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2.8, execute: {
                     withAnimation(.easeIn(duration: 0.2)){
                         isPresented.toggle()
                     }
@@ -73,5 +65,5 @@ struct StoryView: View {
 }
 
 #Preview {
-    StoryView(isPresented: .constant(true))
+    SplashView(isPresented: .constant(true))
 }
