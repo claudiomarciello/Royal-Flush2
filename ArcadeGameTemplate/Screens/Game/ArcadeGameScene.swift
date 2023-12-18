@@ -834,7 +834,7 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
     
     func addSequentialPoints(points: Int) {
         let portion = 10
-        let repeatingCount = points >= 30 ? points / portion : points
+        let repeatingCount = (points >= 30 && points % portion == 0) ? points / portion : points
         let addingScores = points >= 30 ? portion : 1
         
         let addPointsAction = SKAction.run {
