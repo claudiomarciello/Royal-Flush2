@@ -19,7 +19,7 @@ struct MainScreenView: View {
     var gameLogic: ArcadeGameLogic = ArcadeGameLogic.shared
 
     
-    @State private var playerName: String = "Default"
+    @State private var playerName: String = "Player 1"
 
 
     // The game state is used to transition between the different states of the game
