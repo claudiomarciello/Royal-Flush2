@@ -409,10 +409,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ArcadeGameTemplate/Preview Content\"";
-				DEVELOPMENT_TEAM = Z993Z64L49;
+				DEVELOPMENT_TEAM = T2V3R3ZLQS;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Royal-Flush-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Royal Flush";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.arcade-games";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -447,10 +448,11 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"ArcadeGameTemplate/Preview Content\"";
-				DEVELOPMENT_TEAM = Z993Z64L49;
+				DEVELOPMENT_TEAM = T2V3R3ZLQS;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "Royal-Flush-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Royal Flush";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.arcade-games";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
