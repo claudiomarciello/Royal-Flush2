@@ -79,10 +79,22 @@ struct MainScreenView: View {
                         .foregroundColor(Color.black)
                     TextField("\(playerName)", text: $playerName)
                                             .font(Font.custom("PressStart2P-Regular", size: 18))
-                                            .background(Color(.white))
+                                            .foregroundStyle(.black)
                                             .padding(.leading, 100)
                                             .cornerRadius(8)
                 }                        .padding(.bottom, 60.0)
+                    .onChange(of: playerName) { newValue in
+                        // Limit the text to 6 characters
+                        if playerName.count > 9 {
+                            playerName = String(playerName.prefix(9))
+                        }
+                        
+                    }
+                    .onSubmit {
+                        while playerName.count<9{
+                            playerName += " "
+                        }
+                    }
 
                 
                 

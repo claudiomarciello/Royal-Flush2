@@ -97,27 +97,32 @@ struct GameOverView: View {
                 
 
                 List {
-                       Section(header: Text("Best Games")) {
+                      
                            
                            HStack {
                                             Text("Name")
                                                .font(Font.custom("PressStart2P-Regular", size: 16))
                                                .foregroundStyle(.black)
+                                               //.frame(maxWidth: 115, alignment: .leading)
                                            Spacer()
+                                            Spacer()
                                            Text("Score")
                                                .font(Font.custom("PressStart2P-Regular", size: 16))
                                                .foregroundStyle(.black)
-                               Spacer()
+                               //Spacer()
                                Text("Combo")
                                    .font(Font.custom("PressStart2P-Regular", size: 16))
                                    .foregroundStyle(.black)
                                        }
+                           .listRowBackground(Color.clear) // Set the row background to clear
+
                            
                            ForEach(bestGames.prefix(3), id: \.self) { game in
                                HStack {
                                    Text("\(game.name)")
                                        .font(Font.custom("PressStart2P-Regular", size: 16))
                                        .foregroundStyle(.black)
+                                       //.frame(maxWidth:115)
                                    Spacer()
                                    Text("\(game.score)")
                                        .font(Font.custom("PressStart2P-Regular", size: 16))
@@ -127,8 +132,10 @@ struct GameOverView: View {
                                        .font(Font.custom("PressStart2P-Regular", size: 16))
                                        .foregroundStyle(.black)
                                }
+                               .listRowBackground(Color.clear) // Set the row background to clear
+
                            }
-                       }
+                       
                    }
                    .listStyle(PlainListStyle())
                    .background(Color.clear)
