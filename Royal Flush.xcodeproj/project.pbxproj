@@ -123,21 +123,13 @@
 			path = Game;
 			sourceTree = "<group>";
 		};
-		271CB26927D6571000615359 /* additionalViews */ = {
-			isa = PBXGroup;
-			children = (
-				688233B52B2CB24F0069087F /* StoryView.swift */,
-				271CB26727D6570800615359 /* GameOverView.swift */,
-			);
-			path = additionalViews;
-			sourceTree = "<group>";
-		};
 		271CB26C27D6A13D00615359 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
 				271CB26027D656BA00615359 /* MainScreenView.swift */,
+				688233B52B2CB24F0069087F /* StoryView.swift */,
+				271CB26727D6570800615359 /* GameOverView.swift */,
 				271CB26427D656D700615359 /* Game */,
-				271CB26927D6571000615359 /* additionalViews */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
