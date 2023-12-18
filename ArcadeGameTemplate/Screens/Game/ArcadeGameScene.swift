@@ -833,15 +833,19 @@ class ArcadeGameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func addSequentialPoints(points: Int) {
+        let portion = 10
+        let repeatingCount = points >= 30 ? points / portion : points
+        let addingScores = points >= 30 ? portion : 1
+        
         let addPointsAction = SKAction.run {
-            self.gameLogic.score(points: 1)
+            self.gameLogic.score(points: addingScores)
             self.animateScorePoints()
             self.playSound(sound: ArcadeGameScene.earnedScoreSound)
         }
         
         let waitAction = SKAction.wait(forDuration: 0.03)
         let sequence = SKAction.sequence([addPointsAction, waitAction])
-        let repeatAction = SKAction.repeat(sequence, count: points)
+        let repeatAction = SKAction.repeat(sequence, count: repeatingCount)
         
         self.run(repeatAction)
     }
