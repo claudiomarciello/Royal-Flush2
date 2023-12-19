@@ -69,11 +69,11 @@ struct MainScreenView: View {
                             Spacer()
                         }
                     }
-                    .border(Color.accentColor, width: /*@START_MENU_TOKEN@*/1/*@END_MENU_TOKEN@*/)
+                    .border(Color.accentColor, width: 4)
                 }
                 Spacer()
                 VStack{
-                    Text("Enter your name:")
+                    Text("Enter Your Name:")
                         .font(Font.custom("PressStart2P-Regular", size: 18))
                         .fontWeight(.black)
                         .foregroundColor(Color.black)
@@ -107,9 +107,12 @@ struct MainScreenView: View {
 }
                 } label: {
                     Text("Go!")
+                        .font(Font.custom("PressStart2P-Regular", size: 25))
                         .fontWeight(.heavy)
+                        .clipShape(Capsule())
                         .padding()
-                        .frame(maxWidth: .infinity)
+                        //.frame(maxWidth: .infinity)
+                       
                 }
                 .foregroundColor(.white)
                 .background(self.accentColor)
